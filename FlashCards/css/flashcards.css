@@ -1,0 +1,149 @@
+﻿.list-hover > li:hover { background-color: #428bca; }
+.list-hover > li:hover > a { color: White; }
+
+/*btn-group > btn-default:active*/
+.btn-default.active
+{
+	color: #fff !important;
+	background-color: #47a447 !important;
+	border-color: #398439 !important;
+}
+
+.blackwhite {
+    color: black;
+}
+
+.blackwhite:hover {
+    color: white;
+}
+
+.list-hover > li:hover > span > a { color: White; }
+.list-hover > li:hover > h3 > a > span { color: White; }
+.list-hover > li:hover > h3 { color: White; }
+.list-hover > li:hover > h3 > a  { color: White; }
+.list-hover > li:hover > h3 > span > a { color: White; }
+
+.correctAnswer 
+{
+	font-weight: bold;
+	background-color: #dff0d8;
+}
+
+.strikethrough-line {
+	text-decoration: line-through;
+	font-weight: bold;
+	color: Red;
+	background-color: #DFDFDF;
+	opacity: 0.5;
+}
+.strikethrough-text {
+	color: Black;
+	font-weight: normal;
+}
+
+#content
+{
+	padding-top: 80px;	
+	padding-bottom: 80px;	
+}
+
+.row-quiz-summary { background-color: #F7F7F7; }
+
+.badge-info {color: White; background-color: #39b3d7;}
+.badge-success {color: White; background-color: #47a447;}
+.badge-warning {color: White; background-color: #ed9c28;}
+.badge-danger {color: White; background-color: #d2322d;}
+
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  
+  .frame {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    
+    .navbar .navbar-inner {
+      border-radius: 0;
+      padding-left: 5px;
+    }
+    
+    .menu {
+      height:100%;
+      /* background-color: #3D6AA2; */
+
+      &.collapse {
+        float:left;
+        height: 100% !important;
+        width: auto;
+      }
+  
+      &.collapse.height {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        -webkit-transition: height 0.35s ease;
+        -moz-transition: height 0.35s ease;
+        -o-transition: height 0.35s ease;
+        transition: height 0.35s ease;
+      }
+  
+      &.collapse.width {
+        position: relative;
+        width: 0;
+        overflow: hidden;
+        -webkit-transition: width 0.35s ease;
+        -moz-transition: width 0.35s ease;
+        -o-transition: width 0.35s ease;
+        transition: width 0.35s ease;
+      }
+      
+      &.collapse.in.width {
+        width: auto;
+      }
+      
+      &.collapse.in.height {
+        height: auto;
+      }
+    
+      .collapse-inner {
+        position: relative;        
+        width: 250px;
+        height: 100%;
+      }
+      
+      .navbar .navbar-inner {
+        text-align: center;
+        color: grey;
+        font-size: 1.2em;
+        line-height: 38px;
+      }
+      
+      .nav-stacked {
+        padding: 0 10px;
+      }
+        
+    }
+    .view {
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      
+      .navbar .navbar-inner .btn-navbar {
+        display: block;
+        float: left;
+      }
+      #content {
+        margin: auto 15px;
+        text-align: justify;
+      }
+    }
+  }
+}

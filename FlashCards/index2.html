@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flash cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/flashcards.css" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+
+</head>
+
+<body onload="createDBStructure()">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <h3>
+                    <a href="#" class="menu-trigger">
+                        <span class="icon-reorder" style="padding-left: .2em;"></span> 
+                    </a>
+                    Flashcard <small id="subHeader"> Overview</small>
+                
+                    <!--<span id="subHeader-right" class="pull-right" style="display:; padding-right: 2em;">
+                        <span class="btn glyphicon glyphicon-remove"></span>
+                    </span>-->
+                </h3>
+            </div>
+        </div>
+        <!--<div class="navbar-header">
+            <h3>
+                <a href="#" class="menu-trigger">
+                    <span class="icon-reorder" style="padding-left: .2em;"></span> 
+                </a>
+                Flashcard <small id="subHeader"> Overview</small>
+            </h3>
+        </div>-->
+        <div id="menu" class="menu" style="display:none;">
+            <h6>&nbsp;</h6>
+            <ul class="nav nav-stacked">
+                <li><a href="#home" class="icon-home menu-close"> Overview</a></li>
+                <li><a href="#favorites" class="icon-star menu-close"> My Decks</a></li>
+                <li><a href="#search" class="icon-search menu-close"> Find New Decks</a></li>
+                <li><a href="#d" class="icon-plus menu-close menu-deck-new"> Create Deck</a></li>
+                <li><a href="#stats" class="icon-info menu-close"> Statistics</a></li>
+                <li><a href="#settings" class="icon-gear menu-close"> Settings</a></li>
+                <li><a href="#" class="icon-remove menu-trigger"> Close menu</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div id="content" class="container menu-close">
+        
+        <!-- Home -->
+        <div id="home" class="page" style="display:none;">
+            
+            <h4>My Latest Quizzes</h4>
+
+            <ul class="list-group list-hover" data-bind="foreach: decks" >
+                <li class="list-group-item">
+                    <a data-bind="attr: { href: '#deck/' + id }" >
+                        &nbsp;<span data-bind="text: name"></span>
+                        <!--<span class="icon-chevron-right pull-right"></span>-->
+                    </a>                    
+                    <span class="dropdown pull-right" >
+                        <a data-toggle="dropdown" href="#" class="glyphicon glyphicon-wrench pull-right"></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <li><a href="#">Quiz me again!</a></li>
+                            <li><a href="#">Stats</a></li>
+                        </ul>
+                    </span>
+                </li>
+            </ul>
+
+            <h4>Some stats</h4>
+            <div>
+                Here's some stats...
+            </div>
+        </div>
+
+        <!-- Favorites -->
+        <div id="favorites" class="page" style="display:none;">
+            
+            <h4>My Decks</h4>
+
+            <div class="input-group" style="padding-bottom: 0.4em">
+                <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
+                <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
+            </div>  
+            <ul class="list-group list-hover" data-bind="foreach: filteredDecks" >
+                <li class="list-group-item">
+                    <a data-bind="attr: { href: '#deck/' + id + '/view' }" >
+                        &nbsp;<span data-bind="text: name"></span>
+                    </a>       
+                    <span class="dropdown pull-right" >
+                        <a data-toggle="dropdown" href="#" class="glyphicon glyphicon-wrench pull-right"></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <li><a data-bind="attr: { href: '#quiz/' + GenerateGuid() + '/deck/' + id }">Take Quiz</a></li>
+                            <li><a data-bind="attr: { href: '#deck/' + id }">Edit</a></li>
+                            <li><a data-bind="attr: { href: '#stats/' + id }">Stats</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="#" data-bind="click: $root.deleteDeck">Delete</a></li>
+                        </ul>
+                    </span>
+                </li>
+            </ul>
+
+        </div>
+
+        <!-- Search -->
+        <div id="search" class="page" style="display:none;">
+            search
+        </div>
+
+        <!-- Create Deck -->
+        <div id="createDeck" class="page" style="display:none;">
+            
+            <input type="text" class="form-control" placeholder="Untitled Deck..." data-bind="value: $root.deck().name, valueUpdate: 'change', event: { change: saveDeck }" />
+                    
+            <h4>    
+                Cards 
+                <!-- ko if: $root.deck().cards != null -->
+                <span class="badge" data-bind="text: $root.deck().cards().length"></span>
+                <!-- /ko -->
+            </h4>
+            <ul class="list-group list-hover" data-bind="foreach: deck().cards" >
+                <li class="list-group-item">
+                    <a data-bind="attr: { href: '#deck/' + deckId + '/card/' + id }" >
+                        &nbsp;<span data-bind="text: question"></span>
+                        <!--<span class="icon-chevron-right pull-right"></span>-->
+                    </a>
+                    <a href="#" data-bind="click: $root.deleteCard" >
+                        <span class="glyphicon glyphicon-remove pull-right"></span>
+                        <!--<span class="icon-chevron-right pull-right"></span>-->
+                    </a>
+                </li>
+                
+            </ul>
+            <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+                <center>
+                    <a href="#createCard" class="navbar-btn btn btn-lg btn-info" data-bind="click: $root.goToCard">
+                        Add New Card
+                    </a>
+                </center>
+            </div>
+        </div>
+
+        <!-- Create Card -->
+        <div id="createCard" class="page" style="display:none;">
+            <h4>Question</h4>
+            <textarea class="form-control" rows="3"  data-bind="value: $root.card().question"></textarea>
+            
+            <h4>Image</h4>
+            <input type="file" id="imgUpload" class="btn btn-default">
+            
+            <h4>Type</h4>
+            <select id="ddlAnswerType" class="btn btn-default" data-bind="value: card().typeId">
+                <option value="1">Text</option>
+                <option value="2">Multiple Choise</option>
+                <option value="3">Yes / No</option>
+            </select>                
+            <hr />
+                            
+            <div id="divAnswerText">
+                <h4>Answer</h4>
+                <textarea class="form-control" rows="3" data-bind="value: card().singleAnswer().text "></textarea>
+            </div>
+
+            <div id="divAnswerMultiple" style="display:none;" class="container">
+                <h4>Answers</h4>
+
+                <div data-bind="foreach: card().multipleAnswers">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" data-bind="checked: isCorrect" />
+                                </span>
+                                <input type="text" class="form-control" data-bind="value: text" />
+                                <span class="input-group-btn">
+                                    <a href="#" class="btn btn-danger" data-bind="click: $root.removeAnswer">
+                                        <span class="icon-trash"></span> 
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>   
+                <button class="btn btn-info" type="button" data-bind="click: addAnswer, enable: addItemsAllowed" >
+                    Add New Answer
+                </button> 
+                <div class="row">&nbsp;</div>                
+            </div>
+            
+
+            <div id="divAnswerTrueFalse" style="display:none;">
+                <h4>Answer</h4>
+                <div class="btn-group" data-bind="with: $root.card().trueFalseAnswer">
+                    <button data-bind="click: function() { isCorrect(true); }, css: { active: isCorrect() }" class="btn btn-default" value="true">True</button>
+                    <button data-bind="click: function() { isCorrect(false); }, css: { active: !isCorrect() }"  class="btn btn-default" value="false">False</button>
+                </div>
+            </div>
+
+            <hr />
+            <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+                <div class="container">
+                    <a data-bind="attr: {href: '#deck/' + card().deckId}" class="navbar-btn btn btn-info" data-bind="">Back to Deck</a>
+                    <a href="#" class="navbar-btn btn btn-success pull-right">Save and Continue</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div id="stats" class="page" style="display:none;">
+            stats
+        </div>
+
+        <!-- Settings -->
+        <div id="settings" class="page" style="display:none;">
+            settings
+        </div>
+
+        <!-- Quiz -->
+        <div id="quiz" class="page" style="display:none;" data-bind="with: selectedCard">
+            
+            <div class="pull-left text-info" data-bind="text: $root.resultLabel() "></div>
+            <div class="pull-right btn-link" data-bind="click: $root.showSummary"> End Quiz <span class="glyphicon glyphicon-remove"></span></div>
+
+            <div class="clearfix" style="margin-bottom: 1em;"></div>
+            <div class="panel panel-primary"> 
+                <div class="panel-heading"><h3 class="panel-title">Question</h3></div>
+                <div class="panel-body text-primary" data-bind="text: question" ></div> 
+            </div>
+            
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Answer 
+                        <button id="btnShowHideAnswer" class="btn btn-link" style="padding:0;" data-bind="click: $root.showHideAnswer">show answer</button>
+                    </h3>
+                </div>
+            
+                <!-- single answer -->
+                <div id="quizSingleAnswer" class="panel-body text-success" data-bind="text: singleAnswer().text" style="display:none;" ></div>
+            
+                <!-- multiple answer -->
+                <div id="quizMultipleAnswer" class="panel-body" data-bind="visible: typeId() == 2" >      
+                    <ul class="list-group" data-bind="foreach: multipleAnswers">
+                         <li class="list-group-item text-success" 
+                            data-bind="css: { correctAnswer: isCorrect() && $root.showAnswer(), 'strikethrough-line': !isCorrect() && $root.showAnswer() }">
+                            <span data-bind="text: $index() + 1 + ') ' + text(), css: {'strikethrough-text': !isCorrect() && $root.showAnswer()}"></span>
+                            <span class="glyphicon glyphicon-ok" style="color:Red;" data-bind="visible: isCorrect() && $root.showAnswer()" ></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- true/false answer -->
+                <div id="quizTrueFalseAnswer" class="panel-body text-success" style="display:none;" data-bind="text: (trueFalseAnswer().isCorrect() + '!').toUpperCase()" ></div>
+            
+            </div>
+
+            <!-- footer -->
+            <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+                <div class="container navbar-footer navbar-inverse">
+                    <button class="navbar-btn btn btn-danger btn-lg" data-bind="click: $root.inCorrect"> Incorrect!</button>
+                    <button class="navbar-btn btn btn-success pull-right btn-lg" data-bind="click: $root.correct"> Correct! <span class="glyphicon glyphicon-ok"></span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="phonegap.js"></script>
+    <script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="lib/knockout-2.3.0.js"></script>
+    <script type="text/javascript" src="lib/knockout-addons.js"></script>
+    <script type="text/javascript" src="lib/knockout.validation.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/jpanelmenu.js"></script>
+    <script type="text/javascript" src="lib/sammy.js"></script>
+    <script type="text/javascript" src="js/storage/myDB.js"></script>
+    <script type="text/javascript" src="js/Models/Deck.js"></script>
+    <script type="text/javascript" src="js/Models/Card.js"></script>
+    <script type="text/javascript" src="js/ViewModels/HomeVM.js"></script>
+    <script type="text/javascript" src="js/ViewModels/FavoritesVM.js"></script>
+    <script type="text/javascript" src="js/ViewModels/DeckVM.js"></script>
+    <script type="text/javascript" src="js/ViewModels/CardVM.js"></script>
+    <script type="text/javascript" src="js/ViewModels/QuizVM.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/routing.js"></script>
+</body>
+</html>

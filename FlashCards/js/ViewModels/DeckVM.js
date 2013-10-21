@@ -1,0 +1,27 @@
+﻿function DeckViewModel(deck, cards) {
+    var self = this;
+
+    self.deck = ko.observable(deck);
+    //self.deck.subscribe(function (newValue) { console.log(newValue); });
+    //self.cards = ko.observableArray(cards);
+
+    //self.goToCard = function (card) { location.hash = card.deckid + '/' + card.id };
+    self.goToCard = function () { location.hash = 'deck/' + self.deck().id + '/card/' + GenerateGuid(); };
+    self.saveDeck = function () { SaveDeck(self.deck()); };
+    self.deleteCard = function (card) {
+        if (confirm("Are you sure you want to remove the card with the following question?\n" + card.question())) {
+            console.log(self.deck().cards);
+            console.log(card);
+            self.deck().cards.remove(card);
+            DeleteCard(card);
+        }
+    };
+}
+
+// Bind 
+var element = $('#createDeck')[0];
+//ko.cleanNode(element);
+var deckView = new DeckViewModel(new Deck(null, null, null), null);
+ko.applyBindings(deckView, element);
+
+

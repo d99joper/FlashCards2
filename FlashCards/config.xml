@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns       = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "personablesolutions.mobile.flashcards"
+        versionCode = "1"
+        version     = "0.2.1">
+
+  <name>Flash Card Application</name>
+
+  <description>
+    A simple flash card application
+  </description>
+
+  <author href="http://www.personablesolutions.com" email="jonas@personablesolutions.com">
+    Jonas Persson
+  </author>
+
+  <icon src="images/lightning-icon.png" width="72" height="72" />
+  <icon src="img/lightning-icon.png" width="48" height="48" />
+  <icon src="img/lightning-icon.png" width="36" height="36" />
+
+  <preference name="phonegap-version" value="3.0.0" />
+
+  <gap:plugin name="org.apache.cordova.file-transfer" version="0.3.3" />
+  
+  <feature name="http://api.phonegap.com/1.0/camera"/>
+  <!--<feature name="http://api.phonegap.com/1.0/contacts"/>-->
+  <feature name="http://api.phonegap.com/1.0/file"/>
+  <!--<feature name="http://api.phonegap.com/1.0/geolocation"/>
+  <feature name="http://api.phonegap.com/1.0/media"/>-->
+  <feature name="http://api.phonegap.com/1.0/network"/>
+  <feature name="http://api.phonegap.com/1.0/notification"/>
+
+</widget>
