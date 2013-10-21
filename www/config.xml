@@ -21,14 +21,17 @@
 
   <preference name="phonegap-version" value="3.0.0" />
 
-  <gap:plugin name="org.apache.cordova.file-transfer" version="0.3.3" />
+  <gap:plugin name="org.apache.cordova.file" />
+  <gap:plugin name="org.apache.cordova.file-transfer" />
+  <gap:plugin name="org.apache.cordova.dialogs" />
+  <gap:plugin name="org.apache.cordova.vibration" />
   
-  <feature name="http://api.phonegap.com/1.0/camera"/>
-  <!--<feature name="http://api.phonegap.com/1.0/contacts"/>-->
+  <!--<feature name="http://api.phonegap.com/1.0/camera"/>
+  <feature name="http://api.phonegap.com/1.0/contacts"/>
   <feature name="http://api.phonegap.com/1.0/file"/>
-  <!--<feature name="http://api.phonegap.com/1.0/geolocation"/>
-  <feature name="http://api.phonegap.com/1.0/media"/>-->
+  <feature name="http://api.phonegap.com/1.0/geolocation"/>
+  <feature name="http://api.phonegap.com/1.0/media"/>
   <feature name="http://api.phonegap.com/1.0/network"/>
-  <feature name="http://api.phonegap.com/1.0/notification"/>
+  <feature name="http://api.phonegap.com/1.0/notification"/>-->
 
 </widget>
