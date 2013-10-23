@@ -16,6 +16,15 @@
             DeleteCard(card);
         }
     };
+    self.answerText = function (card) {
+        switch (card.typeId()) {
+            case 1: return card.singleAnswer().text;
+            case 2: return "Multiple answers";
+            case 3: return card.trueFalseAnswer().isCorrect() ? "True" : "False";
+            default:
+                return "";
+        }
+    }
 }
 
 // Bind 

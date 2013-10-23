@@ -13,341 +13,329 @@
 
 <body onload="createDBStructure()">
 
-      <div class="frame">
-        <div id="menu" class="menu nav-collapse collapse" style="padding-top: 58px;">
-            <div class="collapse-inner">
-                <ul class="nav nav-tabs nav-stacked nav-pills">
-                    <li><a href="#home" class="icon-home menu-close"> My Decks</a></li>
-                    <li><a href="#d" class="icon-plus menu-close menu-deck-new"> Create Deck</a></li>
-                    <!--<li><a href="#favorites" class="icon-star menu-close"> Favorites</a></li>
-                    <li><a href="#search" class="icon-search menu-close"> Find New Decks</a></li>-->
-                    <li><a href="#stats" class="icon-info menu-close"> Statistics</a></li>
-                    <!--<li><a href="#settings" class="icon-gear menu-close"> Settings</a></li>-->
-                    <!--<li><a href="#" class="icon-remove menu-trigger"> Close menu</a></li>-->
-                </ul>
-            </div>
+    <div id="menu" class="menu nav-collapse collapse" style="padding-top: 58px;">
+        <div class="collapse-inner">
+            <ul class="nav nav-tabs nav-stacked nav-pills">
+                <li><a href="#home" class="icon-home menu-close"> My Decks</a></li>
+                <li><a href="#d" class="icon-plus menu-close menu-deck-new"> Create Deck</a></li>
+                <!--<li><a href="#favorites" class="icon-star menu-close"> Favorites</a></li>
+                <li><a href="#search" class="icon-search menu-close"> Find New Decks</a></li>-->
+                <li><a href="#stats" class="icon-info menu-close"> Statistics</a></li>
+                <!--<li><a href="#settings" class="icon-gear menu-close"> Settings</a></li>-->
+                <!--<li><a href="#" class="icon-remove menu-trigger"> Close menu</a></li>-->
+            </ul>
         </div>
-        <div class="view">
-            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <div class="navbar-inner">
-                    <div class="container-fluid">
-                        <h3>
-                            <a href="#" class="menu-trigger" data-toggle="collapse" data-target="#menu">
-                                <span class="icon-reorder" style="padding-left: .2em;"></span> 
-                            </a>
-                            Flashcard <small id="subHeader"> My Decks</small>
-                
-                            <!--<span id="subHeader-right" class="pull-right" style="display:; padding-right: 2em;">
-                                <span class="btn glyphicon glyphicon-remove"></span>
-                            </span>-->
-                        </h3>
-                    </div>
+    </div>
+    <div class="view">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <h3>
+                        <a href="#" class="menu-trigger" data-toggle="collapse" data-target="#menu">
+                            <span class="icon-reorder" style="padding-left: .2em;"></span> 
+                        </a>
+                        Flashcard <small id="subHeader"> My Decks</small>
+                    </h3>
                 </div>
-            </nav>
+            </div>
+        </nav>
             
-            <div id="content" class="container menu-close">
+        <div id="content" class="container menu-close">
         
-                <!-- Home -->
-                <div id="home" class="page" style="display:none;">
+            <!-- Home -->
+            <div id="home" class="page" style="display:none;">
 
-                    <div class="input-group" style="padding-bottom: 0.4em">
-                        <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
-                        <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
-                    </div>  
-                    <ul class="list-group list-hover" data-bind="foreach: filteredDecks" >
-                        <li class="list-group-item">
-                            <h3 class="list-group-item-heading">
-                                <span style="border-right: 1px dotted #428bca; margin-right: 1em; padding-right:.3em;">
-                                    <!--<a data-toggle="dropdown" href="#" class="glyphicon glyphicon-wrench"></a>-->
-                                    <a data-toggle="dropdown" href="#" class="icon-cog"></a>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                        <li><a data-bind="attr: { href: '#quiz/' + GenerateGuid() + '/deck/' + id }">Take Quiz</a></li>
-                                        <li><a data-bind="attr: { href: '#deck/' + id }">Edit</a></li>
-                                        <!--<li><a data-bind="click: $root.addToFavorites">Add To Favorites</a></li>-->
-                                        <li><a data-bind="attr: { href: '#stats/' + id }">Stats</a></li>
-                                        <li role="presentation" class="divider"></li>
-                                        <li><a href="#" data-bind="click: $root.deleteDeck">Delete</a></li>
-                                    </ul>
-                                </span>
-                                <a data-bind="text: name, attr: { href: '#deck/' + id }" >
-                                    
-                                    
-                                </a>       
-                                <span class="badge pull-right" data-bind="text: cardCount"></span>
-                            </h3>
-                        </li>
-                    </ul>
-                     
-                </div>
-
-                <!-- Favorites -->
-                <div id="favorites" class="page" style="display:none;">
-
-                    <div class="input-group" style="padding-bottom: 0.4em">
-                        <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
-                        <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
-                    </div>  
-                    <ul class="list-group list-hover" data-bind="foreach: filteredDecks" >
-                        <li class="list-group-item">
-                            <a data-bind="attr: { href: '#deck/' + id + '/view' }" >
-                                &nbsp;<span data-bind="text: name"></span>
-                            </a>       
-                            <span class="dropdown pull-right" >
-                                <a data-toggle="dropdown" href="#" class="glyphicon glyphicon-wrench pull-right"></a>
+                <div class="input-group" style="padding-bottom: 0.4em">
+                    <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
+                    <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
+                </div>  
+                <ul class="list-group list-hover" data-bind="foreach: filteredDecks" >
+                    <li class="list-group-item">
+                        <h3 class="list-group-item-heading">
+                            <span style="padding-left:0; padding-right:.3em;" class="col-sm-1 pull-left">
+                                <!--<a data-toggle="dropdown" href="#" class="glyphicon glyphicon-wrench"></a>-->
+                                <a data-toggle="dropdown" href="#" class="icon-cog"></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                     <li><a data-bind="attr: { href: '#quiz/' + GenerateGuid() + '/deck/' + id }">Take Quiz</a></li>
                                     <li><a data-bind="attr: { href: '#deck/' + id }">Edit</a></li>
+                                    <!--<li><a data-bind="click: $root.addToFavorites">Add To Favorites</a></li>-->
                                     <li><a data-bind="attr: { href: '#stats/' + id }">Stats</a></li>
                                     <li role="presentation" class="divider"></li>
                                     <li><a href="#" data-bind="click: $root.deleteDeck">Delete</a></li>
                                 </ul>
-                            </span>
-                        </li>
-                    </ul>
+                            </span> 
+                            <span class="badge pull-right" data-bind="text: cardCount"></span>
+                            <a data-bind="text: name, attr: { href: '#deck/' + id }" ></a>     
+                        </h3>
+                    </li>
+                </ul>
+                     
+            </div>
 
-                </div>
+            <!-- Favorites -->
+            <div id="favorites" class="page" style="display:none;">
 
-                <!-- Search -->
-                <div id="search" class="page" style="display:none;">
-                    search
-                </div>
-
-                <!-- Create Deck -->
-                <div id="createDeck" class="page" style="display:none;">
-            
-                    <input type="text" class="form-control" placeholder="Untitled Deck..." data-bind="value: $root.deck().name, valueUpdate: 'change', event: { change: saveDeck }" />
-                    
-                    <h4>    
-                        Cards 
-                        <!-- ko if: $root.deck().cards != null -->
-                        <span class="badge" data-bind="text: $root.deck().cards().length"></span>
-                        <!-- /ko -->
-                    </h4>
-                    <ul class="list-group list-hover" data-bind="foreach: deck().cards" >
-                        <li class="list-group-item">
-                            <a data-bind="attr: { href: '#deck/' + deckId + '/card/' + id }" >
-                                <h3 class="list-group-item-heading">
-                                    <span data-bind="text: question"></span>
-                                    <!--<a href="#" data-bind="click: $root.deleteCard" >-->
-                                        <span class="glyphicon glyphicon-remove pull-right" data-bind="click: $root.deleteCard"></span>
-                                        <!--<span class="icon-chevron-right pull-right"></span>-->
-                                    <!--</a>-->
-                                </h3>
-                                
-                                <p class="list-group-item-text" data-bind="text: singleAnswer().text"></p>
-                            </a>
-                                
-                            
-                            
-                            
-                        </li>
-                
-                    </ul>
-                    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-                        <center>
-                            <a href="#createCard" class="navbar-btn btn btn-lg btn-info" data-bind="click: $root.goToCard">
-                                Add New Card
-                            </a>
-                        </center>
-                    </div>
-                </div>
-
-                <!-- Create Card -->
-                <div id="createCard" class="page" style="display:none;">
-                    <h4>Question</h4>
-                    <textarea class="form-control" rows="3"  data-bind="value: $root.card().question"></textarea>
-            
-                    <h4>Image</h4>
-                    <input type="file" id="imgUpload" class="btn btn-default">
-            
-                    <h4>Type</h4>
-                    <select id="ddlAnswerType" class="btn btn-default" data-bind="value: card().typeId">
-                        <option value="1">Text</option>
-                        <option value="2">Multiple Choise</option>
-                        <option value="3">Yes / No</option>
-                    </select>                
-                    <hr />
-                            
-                    <div id="divAnswerText">
-                        <h4>Answer</h4>
-                        <textarea class="form-control" rows="3" data-bind="value: card().singleAnswer().text "></textarea>
-                    </div>
-
-                    <div id="divAnswerMultiple" style="display:none;" class="container">
-                        <h4>Answers</h4>
-
-                        <div data-bind="foreach: card().multipleAnswers">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <input type="checkbox" data-bind="checked: isCorrect" />
-                                        </span>
-                                        <input type="text" class="form-control" data-bind="value: text" />
-                                        <span class="input-group-btn">
-                                            <a href="#" class="btn btn-danger" data-bind="click: $root.removeAnswer">
-                                                <span class="icon-trash"></span> 
-                                            </a>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">&nbsp;</div>
-                        </div>   
-                        <button class="btn btn-info" type="button" data-bind="click: addAnswer, enable: addItemsAllowed" >
-                            Add New Answer
-                        </button> 
-                        <div class="row">&nbsp;</div>                
-                    </div>
-            
-
-                    <div id="divAnswerTrueFalse" style="display:none;">
-                        <h4>Answer</h4>
-                        <div class="btn-group" data-bind="with: $root.card().trueFalseAnswer">
-                            <button data-bind="click: function() { isCorrect(true); }, css: { active: isCorrect() }" class="btn btn-default" value="true">True</button>
-                            <button data-bind="click: function() { isCorrect(false); }, css: { active: !isCorrect() }"  class="btn btn-default" value="false">False</button>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-                        <div class="container">
-                            <a data-bind="attr: {href: '#deck/' + card().deckId}" class="navbar-btn btn btn-info" data-bind="">Back to Deck</a>
-                            <a href="#" class="navbar-btn btn btn-success pull-right">Save and Continue</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Stats -->
-                <div id="stats" class="page" style="display:none;">
-                    <h4>My Latest Quizzes</h4>
-
-                    <ul class="list-group list-hover" data-bind="foreach: quizzes" >
-                        <li class="list-group-item">
-                            <a><span data-bind="text: deckName"></span><small><i data-bind="text: ' (' + formattedDate() + ')'"></i></small></a>
-                            <span class="badge" data-bind="text: correctAnswers + '/' + numberOfCards,
-                                css: {'badge-success': percentage() >= 75
-                                    , 'badge-info': percentage() >= 50 && percentage() < 75 
-                                    , 'badge-warning': percentage() >= 25 && percentage() < 50
-                                    , 'badge-danger': percentage() < 25}">
-                            </span>
-                        </li>
-                    </ul>
-
-                    <h4>Some stats</h4>
-                    <div>
-                        Here's some stats...
-                    </div>
-                </div>
-
-                <!-- Settings -->
-                <!--<div id="settings" class="page" style="display:none;">
-                    settings
-                </div>-->
-
-                <!-- Quiz -->
-                <div id="quiz" class="page" style="display:none;" data-bind="with: selectedCard">
-            
-                    <div class="pull-left">
-                        <span class="text-info">So far: </span>
-                        <span data-bind="
-                        text: $root.correctAnswers() + '/' + $root.cardsShown().length + ' (' + $root.percentage() + '%)' 
-                        , css: {'text-success': $root.percentage() >= 75
-                                , 'text-info': $root.percentage() >= 50 && $root.percentage() < 75 
-                                , 'text-warning': $root.percentage() >= 25 && $root.percentage() < 50
-                                , 'text-danger': $root.percentage() < 25}"></span>
-                    </div>
-                    <div class="pull-right btn-link">
-                        <a data-toggle="modal" href="#quizSummaryModal">End Quiz <span class="glyphicon glyphicon-remove"></span></a>
-                    </div>
-
-                    <div class="clearfix" style="margin-bottom: 1em;"></div>
-                    <div class="panel panel-primary"> 
-                        <div class="panel-heading"><h3 class="panel-title">Question</h3></div>
-                        <div class="panel-body text-primary" data-bind="text: question" ></div> 
-                    </div>
-            
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Answer 
-                                <button id="btnShowHideAnswer" class="btn btn-link" style="padding:0;" data-bind="click: $root.showHideAnswer">show answer</button>
-                            </h3>
-                        </div>
-            
-                        <!-- single answer -->
-                        <div id="quizSingleAnswer" class="panel-body text-success" data-bind="text: singleAnswer().text" style="display:none;" ></div>
-            
-                        <!-- multiple answer -->
-                        <div id="quizMultipleAnswer" class="panel-body" data-bind="visible: typeId() == 2" >      
-                            <ul class="list-group" data-bind="foreach: multipleAnswers">
-                                 <li class="list-group-item text-success" 
-                                    data-bind="css: { correctAnswer: isCorrect() && $root.showAnswer(), 'strikethrough-line': !isCorrect() && $root.showAnswer() }">
-                                    <span data-bind="text: $index() + 1 + ') ' + text(), css: {'strikethrough-text': !isCorrect() && $root.showAnswer()}"></span>
-                                    <span class="glyphicon glyphicon-ok" style="color:Red;" data-bind="visible: isCorrect() && $root.showAnswer()" ></span>
-                                </li>
+                <div class="input-group" style="padding-bottom: 0.4em">
+                    <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
+                    <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
+                </div>  
+                <ul class="list-group list-hover" data-bind="foreach: filteredDecks" >
+                    <li class="list-group-item">
+                        <a data-bind="attr: { href: '#deck/' + id + '/view' }" >
+                            &nbsp;<span data-bind="text: name"></span>
+                        </a>       
+                        <span class="dropdown pull-right" >
+                            <a data-toggle="dropdown" href="#" class="glyphicon glyphicon-wrench pull-right"></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><a data-bind="attr: { href: '#quiz/' + GenerateGuid() + '/deck/' + id }">Take Quiz</a></li>
+                                <li><a data-bind="attr: { href: '#deck/' + id }">Edit</a></li>
+                                <li><a data-bind="attr: { href: '#stats/' + id }">Stats</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="#" data-bind="click: $root.deleteDeck">Delete</a></li>
                             </ul>
-                        </div>
+                        </span>
+                    </li>
+                </ul>
 
-                        <!-- true/false answer -->
-                        <div id="quizTrueFalseAnswer" class="panel-body text-success" style="display:none;" data-bind="text: (trueFalseAnswer().isCorrect() + '!').toUpperCase()" ></div>
+            </div>
+
+            <!-- Search -->
+            <div id="search" class="page" style="display:none;">
+                search
+            </div>
+
+            <!-- Create Deck -->
+            <div id="createDeck" class="page" style="display:none;">
+                <input type="text" class="form-control" placeholder="Untitled Deck..." data-bind="value: $root.deck().name, valueUpdate: 'change', event: { change: saveDeck }" />
+                    
+                <h4>    
+                    Cards 
+                    <!-- ko if: $root.deck().cards != null -->
+                    <span class="badge" data-bind="text: $root.deck().cards().length"></span>
+                    <!-- /ko -->
+                </h4>
+                <ul class="list-group list-hover" data-bind="foreach: deck().cards" >
+                    <li class="list-group-item">
+                        <a data-bind="attr: { href: '#deck/' + deckId + '/card/' + id }" >
+                            <h3 class="list-group-item-heading">
+                                <span data-bind="text: question"></span>
+                                    <span class="glyphicon glyphicon-remove pull-right" data-bind="click: $root.deleteCard"></span>
+                            </h3>
+                                
+                            <p class="list-group-item-text" data-bind="text: $root.answerText($data)"></p>
+                        </a>
+                            
+                    </li>
+                
+                </ul>
+                <div class="navbar navbar-fixed-bottom navbar-inverse">
+                    <center>
+                        <a href="#createCard" class="navbar-btn btn btn-lg btn-info" data-bind="click: $root.goToCard">
+                            Add New Card
+                        </a>
+                    </center>
+                </div>
+            </div>
+
+            <!-- Create Card -->
+            <div id="createCard" class="page" style="display:none;">
+                <form id="formCard">
+                <h4>Question</h4>
+                <textarea class="form-control" rows="3"  data-bind="value: $root.card().question"></textarea>
             
+                <h4>Image</h4>
+                <input type="file" id="imgUpload" class="btn btn-default">
+                <img id="imgDisplay" />
+            
+                <h4>Type</h4>
+                <select id="ddlAnswerType" class="btn btn-default" data-bind="value: card().typeId">
+                    <option value="1">Text</option>
+                    <option value="2">Multiple Choise</option>
+                    <option value="3">Yes / No</option>
+                </select>                
+                <hr />
+                            
+                <div id="divAnswerText">
+                    <h4>Answer</h4>
+                    <textarea class="form-control" rows="3" data-bind="value: card().singleAnswer().text "></textarea>
+                </div>
+
+                <div id="divAnswerMultiple" style="display:none;" class="container">
+                    <h4>Answers</h4>
+
+                    <div data-bind="foreach: card().multipleAnswers">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" data-bind="checked: isCorrect" />
+                                    </span>
+                                    <input type="text" class="form-control" data-bind="value: text" />
+                                    <span class="input-group-btn">
+                                        <a href="#" class="btn btn-danger" data-bind="click: $root.removeAnswer">
+                                            <span class="icon-trash"></span> 
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    </div>   
+                    <button class="btn btn-info" type="button" data-bind="click: addAnswer, enable: addItemsAllowed" >
+                        Add New Answer
+                    </button> 
+                    <div class="row">&nbsp;</div>                
+                </div>
+            
+
+                <div id="divAnswerTrueFalse" style="display:none;">
+                    <h4>Answer</h4>
+                    <div class="btn-group" data-bind="with: $root.card().trueFalseAnswer">
+                        <button data-bind="click: function() { isCorrect(true); }, css: { active: isCorrect() }" class="btn btn-default" value="true">True</button>
+                        <button data-bind="click: function() { isCorrect(false); }, css: { active: !isCorrect() }"  class="btn btn-default" value="false">False</button>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+                    <div class="container">
+                        <a data-bind="attr: {href: '#deck/' + card().deckId}" class="navbar-btn btn btn-info" data-bind="">Back to Deck</a>
+                        <a href="#" class="navbar-btn btn btn-success pull-right">Save and Continue</a>
+                    </div>
+                </div>
+                </form>
+            </div>
+
+            <!-- Stats -->
+            <div id="stats" class="page" style="display:none;">
+                <h4>My Latest Quizzes</h4>
+
+                <ul class="list-group list-hover" data-bind="foreach: quizzes" >
+                    <li class="list-group-item">
+                        <a><span data-bind="text: deckName"></span><small><i data-bind="text: ' (' + formattedDate() + ')'"></i></small></a>
+                        <span class="badge" data-bind="text: correctAnswers + '/' + numberOfCards,
+                            css: {'badge-success': percentage() >= 75
+                                , 'badge-info': percentage() >= 50 && percentage() < 75 
+                                , 'badge-warning': percentage() >= 25 && percentage() < 50
+                                , 'badge-danger': percentage() < 25}">
+                        </span>
+                    </li>
+                </ul>
+
+                <h4>Some stats</h4>
+                <div>
+                    Here's some stats...
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <!--<div id="settings" class="page" style="display:none;">
+                settings
+            </div>-->
+
+            <!-- Quiz -->
+            <div id="quiz" class="page" style="display:none;" data-bind="with: selectedCard">
+            
+                <div class="pull-left">
+                    <span class="text-info">So far: </span>
+                    <span data-bind="
+                    text: $root.correctAnswers() + '/' + $root.cardsShown().length + ' (' + $root.percentage() + '%)' 
+                    , css: {'text-success': $root.percentage() >= 75
+                            , 'text-info': $root.percentage() >= 50 && $root.percentage() < 75 
+                            , 'text-warning': $root.percentage() >= 25 && $root.percentage() < 50
+                            , 'text-danger': $root.percentage() < 25}"></span>
+                </div>
+                <div class="pull-right btn-link">
+                    <a data-toggle="modal" href="#quizSummaryModal">End Quiz <span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+
+                <div class="clearfix" style="margin-bottom: 1em;"></div>
+                <div class="panel panel-primary"> 
+                    <div class="panel-heading"><h3 class="panel-title">Question</h3></div>
+                    <div class="panel-body text-primary" data-bind="text: question" ></div> 
+                </div>
+            
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Answer 
+                            <button id="btnShowHideAnswer" class="btn btn-link" style="padding:0;" data-bind="click: $root.showHideAnswer">show answer</button>
+                        </h3>
+                    </div>
+            
+                    <!-- single answer -->
+                    <div id="quizSingleAnswer" class="panel-body text-success" data-bind="text: singleAnswer().text" style="display:none;" ></div>
+            
+                    <!-- multiple answer -->
+                    <div id="quizMultipleAnswer" class="panel-body" data-bind="visible: typeId() == 2" >      
+                        <ul class="list-group" data-bind="foreach: multipleAnswers">
+                                <li class="list-group-item text-success" 
+                                data-bind="css: { correctAnswer: isCorrect() && $root.showAnswer(), 'strikethrough-line': !isCorrect() && $root.showAnswer() }">
+                                <span data-bind="text: $index() + 1 + ') ' + text(), css: {'strikethrough-text': !isCorrect() && $root.showAnswer()}"></span>
+                                <span class="glyphicon glyphicon-ok" style="color:Red;" data-bind="visible: isCorrect() && $root.showAnswer()" ></span>
+                            </li>
+                        </ul>
                     </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="quizSummaryModal" tabindex="-1" role="dialog" aria-labelledby="quizSummaryModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Summary</h4>
+                    <!-- true/false answer -->
+                    <div id="quizTrueFalseAnswer" class="panel-body text-success" style="display:none;" data-bind="text: (trueFalseAnswer().isCorrect() + '!').toUpperCase()" ></div>
+            
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="quizSummaryModal" tabindex="-1" role="dialog" aria-labelledby="quizSummaryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Summary</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="well text-info">
+                                <div data-bind="text: 'Cards shown: ' + $root.cardsShown().length"></div>
+                                <div data-bind="text: 'Correct answers: ' + $root.correctAnswers()"></div>
+                                <div data-bind="text: 'Percentage: ' + $root.percentage() + '%'"></div>
                             </div>
-                            <div class="modal-body">
-                                <div class="well text-info">
-                                    <div data-bind="text: 'Cards shown: ' + $root.cardsShown().length"></div>
-                                    <div data-bind="text: 'Correct answers: ' + $root.correctAnswers()"></div>
-                                    <div data-bind="text: 'Percentage: ' + $root.percentage() + '%'"></div>
-                                </div>
                                 
-                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">All cards</div>
-                                    <div class="panel-body">
-                                        <div data-bind="foreach: $root.cardsShown">
-                                            <div class="row" data-bind="css: {'text-success': isCorrect, 'text-danger': !isCorrect}">
-                                                <span data-bind="if: isCorrect" ><span class="icon-ok"></span></span>
-                                                <span data-bind="if: !isCorrect"><span class="icon-remove"></span></span>
-                                                <span data-bind="text: card.question">Questions asked</span>
-                                            </div>
+                                <div class="panel panel-primary">
+                                <div class="panel-heading">All cards</div>
+                                <div class="panel-body">
+                                    <div data-bind="foreach: $root.cardsShown">
+                                        <div class="row" data-bind="css: {'text-success': isCorrect, 'text-danger': !isCorrect}">
+                                            <span data-bind="if: isCorrect" ><span class="icon-ok"></span></span>
+                                            <span data-bind="if: !isCorrect"><span class="icon-remove"></span></span>
+                                            <span data-bind="text: card.question">Questions asked</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button class="btn btn-primary" data-bind="click: $root.FinalizeQuiz">End Quiz</button>
-                            </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
-
-                    <!-- footer -->
-                    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-                        <div class="container navbar-footer navbar-inverse">
-                            <button class="navbar-btn btn btn-danger btn-lg" data-bind="click: $root.inCorrect"> Incorrect!</button>
-                            <button class="navbar-btn btn btn-success pull-right btn-lg" data-bind="click: $root.correct"> Correct! <span class="glyphicon glyphicon-ok"></span></button>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" data-bind="click: $root.FinalizeQuiz">End Quiz</button>
+                        </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <!-- footer -->
+                <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+                    <div class="container navbar-footer navbar-inverse">
+                        <button class="navbar-btn btn btn-danger btn-lg" data-bind="click: $root.inCorrect"> Incorrect!</button>
+                        <button class="navbar-btn btn btn-success pull-right btn-lg" data-bind="click: $root.correct"> Correct! <span class="glyphicon glyphicon-ok"></span></button>
                     </div>
                 </div>
-
             </div>
 
         </div>
-      </div>
+
+    </div>
+
 
     <script type="text/javascript" src="phonegap.js"></script>
-    <script type="text/javascript" src="file.js"></script>
+    <!--<script type="text/javascript" src="file.js"></script>
     <script type="text/javascript" src="FileTransfer.js"></script>
-    <script type="text/javascript" src="FileTransferError.js"></script>
+    <script type="text/javascript" src="FileTransferError.js"></script>-->
     <!--<script type="text/javascript" src="notification.js"></script>
     <script type="text/javascript" src="vibration.js"></script>-->
 

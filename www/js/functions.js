@@ -24,7 +24,10 @@ function GenerateGuid() {
 			s4() + '-' + s4() + s4() + s4();
 }
 
-
+function isPhonegap() {
+    return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent);
+    //return navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
+}
 
 $(document).ready(function () {
 
@@ -63,11 +66,15 @@ $(document).ready(function () {
     });
 
     // vibrate when a button is pressed 
-    $(".btn").click(function () { navigator.notification.vibrate(vibrationTime1); });
-    $("a").click(function () { navigator.notification.vibrate(vibrationTime1); });
+    $(".btn").click(function () { if(isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
+    $("a").click(function () { if (isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
 
     // Initiate the PhoneGap onDeviceReady event
-    document.addEventListener("deviceready", onDeviceReady, false);
+    if (isPhonegap())
+        document.addEventListener("deviceready", onDeviceReady, false);
+    else
+        console.log("this is the browser"); 
+
 
 });
 
@@ -105,6 +112,79 @@ function onBackKeyDown() {
         navigator.app.backHistory();
     }
 }
+function hexToBase64(str) {
+    return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+}
+
+$("#imgUpload").change(function () {
+    var file = this.files[0];
+    name = file.name;
+    size = file.size;
+    type = file.type;
+    console.log(file);
+
+    if (file.name.length < 1) {
+
+    }
+    else if (file.size > 100000) {
+        alert("File is to big");
+    }
+    else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg') {
+        alert("File doesnt match png, jpg or gif");
+    }
+    else {
+        var reader = new FileReader();
+        reader.readAsDataURL(file, 'UTF-8');
+        reader.onloadend = function () {
+            console.log(reader.result);
+            $("#imgDisplay").attr({ "src": reader.result, "width": "250px" });
+        }
+
+        //        var formData = new FormData($('#formCard')[0]);
+        //        $.ajax({
+        //            url: 'script',  //server script to process data
+        //            type: 'POST',
+        //            xhr: function () {  // custom xhr
+        //                console.log(formData);
+        //                myXhr = $.ajaxSettings.xhr();
+        //                console.log(myXhr.upload);
+        //                if (myXhr.upload) { // if upload property exists
+        //                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
+        //                }
+        //                console.log(myXhr);
+        //                return myXhr;
+        //            },
+        //            //Ajax events
+        //            success: completeHandler = function (data) {
+        //                console.log(data);
+        //                /*
+        //                * workaround for crome browser // delete the fakepath
+        //                */
+        //                if (navigator.userAgent.indexOf('Chrome')) {
+        //                    var catchFile = $("#imgUpload").val().replace(/C:\\fakepath\\/i, '');
+        //                }
+        //                else {
+        //                    var catchFile = $("#imgUpload").val();
+        //                }
+        //                var writeFile = $("#imgUpload");
+
+        //                writeFile.html(writer(catchFile));
+
+        //                $("#imgDisplay").val(data.logo_id);
+
+        //            },
+        //            error: errorHandler = function () {
+        //                alert("Något gick fel");
+        //            },
+        //            // Form data
+        //            data: formData
+        //            //Options to tell JQuery not to process data or worry about content-type
+        //            , cache: false
+        //           , contentType: false
+        //            , processData: function (data) { console.log(data); }
+        //        }, 'json');
+    }
+});
 
 
 

@@ -147,8 +147,8 @@ function GetAllDecks(callback) {
         t.executeSql('SELECT Deck.DeckId, Name, Count(Card.CardId) as cards FROM Deck LEFT JOIN Card on Card.DeckId = Deck.DeckId GROUP BY Deck.DeckId, Name', [],
             function (tx, rs) {
                 var decks = [];
-                for (i = 0; i < rs.rows.length - 1; i++) {
-                    var row = rs.rows.item(i); console.log(row["cards"]);
+                for (i = 0; i < rs.rows.length; i++) {
+                    var row = rs.rows.item(i); 
                     decks.push(new Deck(row["DeckId"], row["Name"], null, row["cards"]));
                 }
                 callback(decks);

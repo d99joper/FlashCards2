@@ -7,7 +7,6 @@
 
     self.decks.subscribe(function (newValue) { self.filteredDecks(self.decks()); });
     self.filter.subscribe(function (newValue) {
-        console.log(newValue);
         self.filteredDecks(filterArrayByProperty(self.decks, "name", newValue, "contains"));
 
     });

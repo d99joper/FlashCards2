@@ -9,7 +9,7 @@
         this.get('#home', function (context) {
             GetAllDecks(function (decks) {
                 homeView.decks(decks);
-            }); 
+            });
             showPage("home", " My Decks");
         });
 

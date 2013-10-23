@@ -91,7 +91,6 @@ function GetCard(cardId, deckId, callback) {
                     var question = rs.rows.item(0)["Question"];
                     var imageUrl = rs.rows.item(0)["ImageUrl"];
                     var typeId = rs.rows.item(0)["TypeId"];
-
                     var mAnswers = [];
                     var sAnswer, tfAnswer = null;
                     for (i = 0; i < rs.rows.length; i++) {
@@ -115,12 +114,19 @@ function GetCard(cardId, deckId, callback) {
                     callback(card, rs.rows.item(0)["DeckName"]);
                 }
                 else {
-                    AddCard(new Card(cardId, deckId, null, null, 1, null, null, null), null);
-                    GetCard(cardId, deckId, function (newCard) { callback(newCard, ""); });
+                    transaction.executeSql('SELECT Name as DeckName FROM Deck WHERE DeckId = ? '
+                    , [deckId]
+                    , function (tx, rs) {
+                        if (rs != null && rs.rows.length > 0) {
+                            AddCard(new Card(cardId, deckId, null, null, 1, null, null, null), null);
+                            GetCard(cardId, deckId, function (newCard) { callback(newCard, rs.rows.item(0)["DeckName"]); });
+                        }
+                    }
+                    , errorHandler);
                 }
             }
             , errorHandler);
-    });
+        });
 
     return false;
 }
