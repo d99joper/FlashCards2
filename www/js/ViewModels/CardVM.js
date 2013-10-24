@@ -59,6 +59,7 @@ function uploadImage(file) {
         reader.readAsDataURL(file);
         reader.onloadend = function (event) {
             alert(event.target.error);
+            alert(event.target.error.code);
             $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
         }
         reader.onerror = function (event) {
