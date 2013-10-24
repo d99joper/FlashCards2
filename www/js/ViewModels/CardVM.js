@@ -44,27 +44,26 @@ ko.applyBindings(editCardView, element); //document.getElementById("#createCard"
 
 function uploadImage(file) {
 
-    //var file = this.files[0];
-    var name = file.name;
-    var size = file.size;
-    var type = file.type;
     if (file.fullPath && file.fullPath.length > 0)
         alert(file.fullPath);
 
     if (file.name.length < 1)
         alert("No file name specified.");
-
-    else if (file.size > 300000)
-        alert("File is to big");
-
+//    else if (file.size > 300000)
+//        alert("File is to big");
     else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
         alert("File doesnt match png, jpg or gif");
-
     else {
         var reader = new FileReader();
         reader.readAsDataURL(file, 'UTF-8');
-        reader.onloadend = function (evt) {
-            $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
+        reader.onloadend = function (event) {
+            $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
+        }
+        reader.onerror = function (event) {
+            alert(event);
+            alert(error.length);
+            for (i = 0; i < error.length; i++)
+                alert(error(i));
         }
     }
 }
