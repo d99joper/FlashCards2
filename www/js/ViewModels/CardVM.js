@@ -54,13 +54,30 @@ function uploadImage(file) {
     else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
         alert("File doesnt match png, jpg or gif");
     else {
+        //file(win, fail);
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = function (event) {
+            alert(event.target.error);
             $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
         }
         reader.onerror = function (event) {
+            alert(event);
             alert(error.code);
+            for (i = 0; i < error.length; i++)
+                alert(error(i));
         }
     }
 }
+
+function win(file) {
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onloadend = function (event) {
+        $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
+    }
+};
+
+var fail = function (evt) {
+    alert(error.code);
+};
