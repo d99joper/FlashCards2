@@ -117,16 +117,17 @@ function hexToBase64(str) {
 }
 
 $("#imgUpload").change(function () {
+    console.log("what");
     var file = this.files[0];
     name = file.name;
     size = file.size;
     type = file.type;
-    console.log(file);
+    alert(file);
 
     if (file.name.length < 1) {
 
     }
-    else if (file.size > 100000) {
+    else if (file.size > 300000) {
         alert("File is to big");
     }
     else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg') {
@@ -135,10 +136,18 @@ $("#imgUpload").change(function () {
     else {
         var reader = new FileReader();
         reader.readAsDataURL(file, 'UTF-8');
-        reader.onloadend = function () {
+        reader.onloadend = function (evt) {
+            console.log(evt.target.result);
             console.log(reader.result);
-            $("#imgDisplay").attr({ "src": reader.result, "width": "250px" });
+            $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
         }
+//        reader = new FileReader();
+//        reader.readAsBinaryString(file, 'UTF-8');
+//        reader.onloadend = function (evt) {
+//            console.log(escape(evt.target.result));
+//            console.log(reader.result);
+//            $("#imgDisplay").attr({ "src": escape(evt.target.result), "width": "250px" });
+//        }
 
         //        var formData = new FormData($('#formCard')[0]);
         //        $.ajax({
