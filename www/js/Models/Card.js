@@ -15,6 +15,11 @@
 
     self.typeId.subscribe(function (newValue) { SaveCard(self); });
     self.question.subscribe(function (newValue) { SaveCard(self); });
+
+    self.UpdateImagePath = function (path) {
+        self.imageUrl = path;
+        SaveCard(self);
+    };
 }
 
 function Answer(id, cardId, text, isCorrect, typeId) {

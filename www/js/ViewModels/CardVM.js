@@ -54,16 +54,36 @@ function uploadImage(file) {
             alert("No file name specified.");
         //    else if (file.size > 300000)
         //        alert("File is to big");
-        else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+        else if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
             alert("File doesnt match png, jpg or gif");
         else {
             var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = function (event) {
-                alert(event.target.error);
+
+                // shrink image
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                var img = document.createElement('img');
+                img.src = reader.result;
+                img.onload = function () {
+                    var newHeight = img.height / img.width * 400;
+                    canvas.width = 400;
+                    canvas.height = newHeight;
+                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, newHeight);
+                    var shrunkImg = canvas.toDataURL('image/jpeg');
+                    var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
+                    // save image data to the phone storage
+
+                    // Save the image path to the database
+                    editCardView.card().UpdateImagePath(file.name);
+
+                    // Display the image
+                    $("#imgDisplay").attr({ "src": shrunkImg });
+                }
+
                 if (event.target.error)
                     errorHandler(event.target.error);
-                $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
             }
         }
     }
@@ -78,19 +98,27 @@ function gotFileEntry(fileEntry, file, type) {
     alert(fileEntry.fullPath);
     var reader = new FileReader();
     reader.onloadend = function (event) {
-        $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
-    };
-    reader.onerror = function (event) {
-        errorHandler(event.target.error.code);
-    };
-    reader.readAsDataURL(file);
-    //fileEntry.createWriter(function (w) { gotFileWriter(w, file, type); }, fail);
-}
+        // shrink image
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var img = document.createElement('img');
+        img.src = reader.result;
+        img.onload = function () {
+            var newHeight = img.height / img.width * 400;
+            canvas.width = 400;
+            canvas.height = newHeight;
+            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, newHeight);
+            var shrunkImg = canvas.toDataURL('image/jpeg');
 
-function gotFileWriter(fileWriter, file, type) {
-    var reader = new FileReader();
-    reader.onloadend = function (event) {
-        $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
+            // save image data to the phone storage
+            var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
+
+            // Save the image path to the database
+            editCardView.card().UpdateImagePath(fileEntry.fullPath);
+
+            // Display the image
+            $("#imgDisplay").attr({ "src": shrunkImg });
+        }
     };
     reader.onerror = function (event) {
         errorHandler(event.target.error.code);
@@ -117,22 +145,10 @@ function errorHandler(e) {
         case FileError.INVALID_STATE_ERR:
             msg = 'INVALID_STATE_ERR';
             break;
-        default:
+        default:y
             msg = 'Unknown Error';
             break;
     };
 
     alert('Error: ' + msg);
 }
-
-function win(file) {
-    var reader = new FileReader();
-    reader.readAsText(file);
-    reader.onloadend = function (event) {
-        $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
-    }
-};
-
-var fail = function (evt) {
-    alert(error.code);
-};
