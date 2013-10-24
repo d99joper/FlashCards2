@@ -71,23 +71,29 @@ function uploadImage(file) {
 
 function gotFS(fileSystem, file, type) {
     var flags = { create: true, exclusive: false };
-    alert("gotFS");
     fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, fail);
 }
 
 function gotFileEntry(fileEntry, file, type) {
-    alert("gotFileEntry");
-    fileEntry.createWriter(function (w) { gotFileWriter(w, file, type); }, fail);
-}
-
-function gotFileWriter(fileWriter, file, type) {
-    alert("gotFileWriter");
+    alert(fileEntry.fullPath);
     var reader = new FileReader();
     reader.onloadend = function (event) {
         $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
     };
     reader.onerror = function (event) {
-        alert("error, file could not be read" + event.target.error.code);
+        errorHandler(event.target.error.code);
+    };
+    reader.readAsDataURL(file);
+    //fileEntry.createWriter(function (w) { gotFileWriter(w, file, type); }, fail);
+}
+
+function gotFileWriter(fileWriter, file, type) {
+    var reader = new FileReader();
+    reader.onloadend = function (event) {
+        $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
+    };
+    reader.onerror = function (event) {
+        errorHandler(event.target.error.code);
     };
     reader.readAsDataURL(file);
 }
