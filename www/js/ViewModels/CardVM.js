@@ -48,7 +48,7 @@ function uploadImage(file) {
     var name = file.name;
     var size = file.size;
     var type = file.type;
-    if (file.fullPath)
+    if (file.fullPath && file.fullPath.length > 0)
         alert(file.fullPath);
 
     if (file.name.length < 1)
