@@ -43,7 +43,7 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element); //document.getElementById("#createCard"));
 
 function uploadImage(file) {
-
+    alert("file = " + file.name + "\n full path = " + file.fullPath);
     if (file.fullPath && file.fullPath.length > 0)
         alert(file.fullPath);
 
@@ -60,7 +60,7 @@ function uploadImage(file) {
         reader.onloadend = function (event) {
             alert(event.target.error);
             if (event.target.error)
-                alert(event.target.error.code);
+                errorHandler(event.target.error);
             $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
         }
 //        reader.onerror = function (event) {
@@ -70,6 +70,33 @@ function uploadImage(file) {
 //                alert(error(i));
 //        }
     }
+}
+
+function errorHandler(e) {
+    var msg = '';
+
+    switch (e.code) {
+        case FileError.QUOTA_EXCEEDED_ERR:
+            msg = 'QUOTA_EXCEEDED_ERR';
+            break;
+        case FileError.NOT_FOUND_ERR:
+            msg = 'NOT_FOUND_ERR';
+            break;
+        case FileError.SECURITY_ERR:
+            msg = 'SECURITY_ERR';
+            break;
+        case FileError.INVALID_MODIFICATION_ERR:
+            msg = 'INVALID_MODIFICATION_ERR';
+            break;
+        case FileError.INVALID_STATE_ERR:
+            msg = 'INVALID_STATE_ERR';
+            break;
+        default:
+            msg = 'Unknown Error';
+            break;
+    };
+
+    alert('Error: ' + msg);
 }
 
 function win(file) {
