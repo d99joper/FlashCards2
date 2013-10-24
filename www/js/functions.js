@@ -137,7 +137,7 @@ $("#imgUpload").change(function () {
         var reader = new FileReader();
         reader.readAsDataURL(file, 'UTF-8');
         reader.onloadend = function (evt) {
-            console.log(evt.target.result);
+            alert(evt.target.result);
             console.log(reader.result);
             $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
         }
