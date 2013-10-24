@@ -55,15 +55,12 @@ function uploadImage(file) {
         alert("File doesnt match png, jpg or gif");
     else {
         var reader = new FileReader();
-        reader.readAsDataURL(file, 'UTF-8');
+        reader.readAsDataURL(file);
         reader.onloadend = function (event) {
             $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
         }
         reader.onerror = function (event) {
-            alert(event);
-            alert(error.length);
-            for (i = 0; i < error.length; i++)
-                alert(error(i));
+            alert(error.code);
         }
     }
 }
