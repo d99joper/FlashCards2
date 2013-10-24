@@ -42,3 +42,29 @@ var element = $('#createCard')[0];
 var editCardView = new EditCardViewModel(null, null, null, null, null, null, null);
 ko.applyBindings(editCardView, element); //document.getElementById("#createCard"));
 
+function uploadImage(file) {
+
+    //var file = this.files[0];
+    var name = file.name;
+    var size = file.size;
+    var type = file.type;
+    if (file.fullPath)
+        alert(file.fullPath);
+
+    if (file.name.length < 1)
+        alert("No file name specified.");
+
+    else if (file.size > 300000)
+        alert("File is to big");
+
+    else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+        alert("File doesnt match png, jpg or gif");
+
+    else {
+        var reader = new FileReader();
+        reader.readAsDataURL(file, 'UTF-8');
+        reader.onloadend = function (evt) {
+            $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
+        }
+    }
+}

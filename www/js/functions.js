@@ -112,88 +112,35 @@ function onBackKeyDown() {
         navigator.app.backHistory();
     }
 }
-function hexToBase64(str) {
-    return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
-}
+//function hexToBase64(str) {
+//    return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+//}
 
-$("#imgUpload").change(function () {
-    console.log("what");
-    var file = this.files[0];
-    name = file.name;
-    size = file.size;
-    type = file.type;
-    alert(file);
+//$("#imgUpload").change(function () {
 
-    if (file.name.length < 1) {
+//    var file = this.files[0];
+//    name = file.name;
+//    size = file.size;
+//    type = file.type;
+//    alert(file.fullPath);
 
-    }
-    else if (file.size > 300000) {
-        alert("File is to big");
-    }
-    else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg') {
-        alert("File doesnt match png, jpg or gif");
-    }
-    else {
-        var reader = new FileReader();
-        reader.readAsDataURL(file, 'UTF-8');
-        reader.onloadend = function (evt) {
-            alert(evt.target.result);
-            console.log(reader.result);
-            $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
-        }
-//        reader = new FileReader();
-//        reader.readAsBinaryString(file, 'UTF-8');
+//    if (file.name.length < 1)
+//        alert("No file name specified.");
+//    
+//    else if (file.size > 300000) 
+//        alert("File is to big");
+//    
+//    else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg') 
+//        alert("File doesnt match png, jpg or gif");
+//    
+//    else {
+//        var reader = new FileReader();
+//        reader.readAsDataURL(file, 'UTF-8');
 //        reader.onloadend = function (evt) {
-//            console.log(escape(evt.target.result));
-//            console.log(reader.result);
-//            $("#imgDisplay").attr({ "src": escape(evt.target.result), "width": "250px" });
+//            $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
 //        }
-
-        //        var formData = new FormData($('#formCard')[0]);
-        //        $.ajax({
-        //            url: 'script',  //server script to process data
-        //            type: 'POST',
-        //            xhr: function () {  // custom xhr
-        //                console.log(formData);
-        //                myXhr = $.ajaxSettings.xhr();
-        //                console.log(myXhr.upload);
-        //                if (myXhr.upload) { // if upload property exists
-        //                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
-        //                }
-        //                console.log(myXhr);
-        //                return myXhr;
-        //            },
-        //            //Ajax events
-        //            success: completeHandler = function (data) {
-        //                console.log(data);
-        //                /*
-        //                * workaround for crome browser // delete the fakepath
-        //                */
-        //                if (navigator.userAgent.indexOf('Chrome')) {
-        //                    var catchFile = $("#imgUpload").val().replace(/C:\\fakepath\\/i, '');
-        //                }
-        //                else {
-        //                    var catchFile = $("#imgUpload").val();
-        //                }
-        //                var writeFile = $("#imgUpload");
-
-        //                writeFile.html(writer(catchFile));
-
-        //                $("#imgDisplay").val(data.logo_id);
-
-        //            },
-        //            error: errorHandler = function () {
-        //                alert("Något gick fel");
-        //            },
-        //            // Form data
-        //            data: formData
-        //            //Options to tell JQuery not to process data or worry about content-type
-        //            , cache: false
-        //           , contentType: false
-        //            , processData: function (data) { console.log(data); }
-        //        }, 'json');
-    }
-});
+//    }
+//});
 
 
 
