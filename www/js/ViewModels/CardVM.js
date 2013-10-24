@@ -43,33 +43,53 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element); //document.getElementById("#createCard"));
 
 function uploadImage(file) {
-    alert("file = " + file.name + "\n full path = " + file.fullPath);
-    if (file.fullPath && file.fullPath.length > 0)
-        alert(file.fullPath);
 
-    if (file.name.length < 1)
-        alert("No file name specified.");
-//    else if (file.size > 300000)
-//        alert("File is to big");
-    else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
-        alert("File doesnt match png, jpg or gif");
-    else {
-        //file(win, fail);
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = function (event) {
-            alert(event.target.error);
-            if (event.target.error)
-                errorHandler(event.target.error);
-            $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
-        }
-//        reader.onerror = function (event) {
-//            alert(event);
-//            alert(error.code);
-//            for (i = 0; i < error.length; i++)
-//                alert(error(i));
-//        }
+    if (isPhonegap()) {
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+            gotFS(fs, file, file.type);
+        }, errorHandler);
     }
+    else {
+        if (file.name.length < 1)
+            alert("No file name specified.");
+        //    else if (file.size > 300000)
+        //        alert("File is to big");
+        else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+            alert("File doesnt match png, jpg or gif");
+        else {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = function (event) {
+                alert(event.target.error);
+                if (event.target.error)
+                    errorHandler(event.target.error);
+                $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
+            }
+        }
+    }
+}
+
+function gotFS(fileSystem, file, type) {
+    var flags = { create: true, exclusive: false };
+    alert("gotFS");
+    fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, fail);
+}
+
+function gotFileEntry(fileEntry, file, type) {
+    alert("gotFileEntry");
+    fileEntry.createWriter(function (w) { gotFileWriter(w, file, type); }, fail);
+}
+
+function gotFileWriter(fileWriter, file, type) {
+    alert("gotFileWriter");
+    var reader = new FileReader();
+    reader.onloadend = function (event) {
+        $("#imgDisplay").attr({ "src": event.target.result, "width": "250px" });
+    };
+    reader.onerror = function (event) {
+        alert("error, file could not be read" + event.target.error.code);
+    };
+    reader.readAsDataURL(file);
 }
 
 function errorHandler(e) {
