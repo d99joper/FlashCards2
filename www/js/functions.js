@@ -1,5 +1,5 @@
 // Regular expression for the editing card hashtag
-var pEditCard = new RegExp("^#deck/\\d+/card/\\d+$", ["i"]);
+var pEditCard = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}/card/\[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$", ["i"]);
 
 // Vibration times
 var vibrationTime1 = 5;
