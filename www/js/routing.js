@@ -44,6 +44,7 @@
             var cardId = this.params.cardid;
 
             GetCard(cardId, deckId, function (card, deckName) {
+                editCardView.card().id(cardId);
                 subHeader = ": " + deckName + " : Card ";
                 editCardView.card(card);
                 showPage("createCard", subHeader);

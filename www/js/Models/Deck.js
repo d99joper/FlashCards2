@@ -9,25 +9,31 @@
     self.name.subscribe(function (newValue) {
         $("#subHeader").html(": " + newValue);
     });
+
+    self.Save = function () {
+        db.transaction(function (transaction) {
+            transaction.executeSql("UPDATE Deck SET Name = ? WHERE DeckId = ?"
+            , [self.name(), self.id]
+            , []
+            , errorHandler);
+        });
+
+        return false;
+    };
+
+    self.Delete = function () {
+        db.transaction(function (t) {
+            t.executeSql("DELETE FROM Deck WHERE DeckId = ?"
+            , [self.id]
+            , []
+            , errorHandler);
+        });
+
+        return false;
+    };
 }
 
 // ************ CRUD FUNCTIONS ******************* //
-
-// Get higest id
-function GetNextDeckId(callback) {
-
-    console.log("GetNextDeckId");
-    
-    db.transaction(function (tx) {
-        tx.executeSql('SELECT MAX(DeckId) as id FROM Deck', [],
-            function (tx, result) {
-                if (result != null && result.rows != null)
-                    callback(result.rows.item(0)["id"] + 1); 
-            }, errorHandler);
-    });
-
-    return false;
-}
 
 // Add deck
 function AddDeck(deck, callback) {
@@ -41,34 +47,6 @@ function AddDeck(deck, callback) {
                 if (callback)
                     callback(rs.insertId);
             }
-            , errorHandler);
-    });
-
-    return false;
-}
-
-// Save deck
-function SaveDeck(deck) {
-    
-    // update deck
-    db.transaction(function (transaction) {
-        transaction.executeSql("UPDATE Deck SET Name = ? WHERE DeckId = ?"
-            , [deck.name(), deck.id]
-            , []
-            , errorHandler);
-    });
-
-    return false;
-}
-
-// Delete deck
-function DeleteDeck(deckId) {
-    console.log("delete");
-    console.log(deckId);
-    db.transaction(function (t) {
-        t.executeSql("DELETE FROM Deck WHERE DeckId = ?"
-            , [deckId]
-            , []
             , errorHandler);
     });
 

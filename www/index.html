@@ -116,7 +116,7 @@
                 </h4>
                 <ul class="list-group list-hover" data-bind="foreach: deck().cards" >
                     <li class="list-group-item">
-                        <a data-bind="attr: { href: '#deck/' + deckId + '/card/' + id }" >
+                        <a data-bind="attr: { href: '#deck/' + deckId + '/card/' + id() }" >
                             <h3 class="list-group-item-heading">
                                 <span data-bind="text: question"></span>
                                     <span class="glyphicon glyphicon-remove pull-right" data-bind="click: $root.deleteCard"></span>
@@ -141,7 +141,7 @@
             <div id="createCard" class="page" style="display:none;">
                 <form id="formCard">
                 <h4>Question</h4>
-                <textarea class="form-control" rows="3"  data-bind="value: $root.card().question"></textarea>
+                <textarea class="form-control" rows="3"  data-bind="value: card().question"></textarea>
             
                 <h4>Image</h4>
                 <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">
@@ -190,7 +190,7 @@
 
                 <div id="divAnswerTrueFalse" style="display:none;">
                     <h4>Answer</h4>
-                    <div class="btn-group" data-bind="with: $root.card().trueFalseAnswer">
+                    <div class="btn-group" data-bind="with: card().trueFalseAnswer">
                         <button data-bind="click: function() { isCorrect(true); }, css: { active: isCorrect() }" class="btn btn-default" value="true">True</button>
                         <button data-bind="click: function() { isCorrect(false); }, css: { active: !isCorrect() }"  class="btn btn-default" value="false">False</button>
                     </div>
@@ -199,8 +199,8 @@
                 <hr />
                 <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
                     <div class="container">
-                        <a data-bind="attr: {href: '#deck/' + card().deckId}" class="navbar-btn btn btn-info" data-bind="">Back to Deck</a>
-                        <a href="#" class="navbar-btn btn btn-success pull-right">Save and Continue</a>
+                        <a data-bind="click: done" class="navbar-btn btn btn-info" data-bind="">Done</a>
+                        <a href="#" class="navbar-btn btn btn-success pull-right" data-bind="click: newCard">Next card</a>
                     </div>
                 </div>
                 </form>

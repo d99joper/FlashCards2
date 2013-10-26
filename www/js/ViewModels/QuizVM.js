@@ -134,7 +134,7 @@ function SaveStats(isCorrect) {
     // update card table
     db.transaction(function (t) {
         t.executeSql("UPDATE Card SET Asked = Asked+1, CorrectlyAnswered = CorrectlyAnswered+? WHERE CardId = ?"
-            , [isCorrect == true ? 1 : 0, quizView.selectedCard().id]
+            , [isCorrect == true ? 1 : 0, quizView.selectedCard().id()]
             , []
             , errorHandler);
     });

@@ -4,33 +4,59 @@
     self.card = ko.observable(new Card(id, deckId, question, image, typeId, answers));
     self.answerLimit = ko.observable(10);
 
-
     // Non-editable catalog data - would come from the server
     self.types = [
         { id: 1, text: "Text" },
         { id: 2, text: "Multiple Choice" },
         { id: 3, text: "True or False" }
     ];
-    
-    self.saveCard = function () { SaveCard(self.card()); };
 
     self.addAnswer = function () {
-        var answer = new Answer(self.card().multipleAnswers().length + 1, self.card().id, null, false, 2);
+        var answer = new Answer(self.card().multipleAnswers().length + 1, self.card().id(), null, false, 2);
         self.card().multipleAnswers.push(answer);
         AddAnswer(answer);
     };
 
     self.saveAnswer = function (answer) {
         console.log(answer.isCorrect());
-        SaveAnswer(answer);
+        answer.Save();
     }
 
     self.removeAnswer = function (answer) {
         if (confirm("Are you sure you want to delete the answer?")) {
             self.card().multipleAnswers.remove(answer);
-            DeleteAnswer(answer);
+            answer.Delete();
         }
     }
+
+    self.newCard = function () {
+        var validation = self.card().Validate();
+
+        if (validation.valid) {
+            self.card().Save();
+            var newCardId = GenerateGuid();
+            self.card().id(newCardId);
+            GetCard(newCardId, self.card().deckId, function (card, deckName) {
+                self.card(card);
+            });
+        }
+        else
+            alert("Card cannot be saved." + validation.message);
+    };
+
+    self.done = function () {
+        var validation = self.card().Validate();
+
+        if (validation.valid)
+            self.card().Save();
+
+        else if (confirm("Card is not complete.\n This card will be deleted unless you cancel." + validation.message)) {
+            self.card().Delete();
+        }
+        else return false;
+
+        location.hash = '#deck/' + self.card().deckId;
+    };
 
     self.addItemsAllowed = ko.computed(function () {
         return self.card().multipleAnswers().length < self.answerLimit();
@@ -121,12 +147,12 @@ function gotFileEntry(fileEntry, file, type) {
         }
     };
     reader.onerror = function (event) {
-        errorHandler(event.target.error.code);
+        errorHandler2(event.target.error.code);
     };
     reader.readAsDataURL(file);
 }
 
-function errorHandler(e) {
+function errorHandler2(e) {
     var msg = '';
 
     switch (e.code) {
@@ -145,7 +171,7 @@ function errorHandler(e) {
         case FileError.INVALID_STATE_ERR:
             msg = 'INVALID_STATE_ERR';
             break;
-        default:y
+        default:
             msg = 'Unknown Error';
             break;
     };

@@ -88,59 +88,31 @@ function onDeviceReady() {
 // Handle the menu button
 function onMenuKeyDown() {
     navigator.notification.vibrate(vibrationTime1);
-	alert("hello");
+	alert("show menu");
 }
 
 // Handle the menu button
 function onBackKeyDown() {
-    alert(window.location.hash);
     if (pEditCard.test(window.location.hash)) {
 
-        var validation = ValidateCard();
-        console.log(editCardView.card());
-        if (validation.valid != true) {
-            if (confirm("The card is not completed. Going back to the deck will delete the card. Are you sure you want to delete the card?" + validation[0].message)) {
-                // delete the card
-                DeleteCard(editCardView.card());
-            }
-            else event.preventDefault();
-        }
+        editCardView.done();
+//        var validation = editCardView.card().Validate();
+
+//        if (validation.valid != true) {
+//            if (confirm("The card is not completed. Going back to the deck will delete the card. Are you sure you want to delete the card?" + validation[0].message)) {
+//                // delete the card
+//                editCardView.card().Delete();
+//            }
+//            else event.preventDefault();
+//        }
     }
     else {
         navigator.notification.vibrate(vibrationTime1);
         history.go(-1);
-        navigator.app.backHistory();
+        //navigator.app.backHistory();
     }
 }
-//function hexToBase64(str) {
-//    return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
-//}
 
-//$("#imgUpload").change(function () {
-
-//    var file = this.files[0];
-//    name = file.name;
-//    size = file.size;
-//    type = file.type;
-//    alert(file.fullPath);
-
-//    if (file.name.length < 1)
-//        alert("No file name specified.");
-//    
-//    else if (file.size > 300000) 
-//        alert("File is to big");
-//    
-//    else if (file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg') 
-//        alert("File doesnt match png, jpg or gif");
-//    
-//    else {
-//        var reader = new FileReader();
-//        reader.readAsDataURL(file, 'UTF-8');
-//        reader.onloadend = function (evt) {
-//            $("#imgDisplay").attr({ "src": evt.target.result, "width": "250px" });
-//        }
-//    }
-//});
 
 
 

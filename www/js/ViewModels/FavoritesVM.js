@@ -15,7 +15,7 @@
     self.deleteDeck = function (deck) {
         if (confirm("Are you sure you want to remove the deck?\n" + deck.name())) {
             self.decks.remove(deck);
-            DeleteDeck(deck.id);
+            deck.Delete();
         }
     };
 }
