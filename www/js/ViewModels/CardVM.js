@@ -101,7 +101,7 @@ function uploadImage(file) {
                     var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
                     // save image data to the phone storage
 
-                    // Save the image path to the database
+                    // Save the image path to the database (on web, should upload the entire image)
                     editCardView.card().UpdateImagePath(file.name);
 
                     // Display the image
@@ -120,8 +120,8 @@ function gotFS(fileSystem, file, type) {
     fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, fail);
 }
 
-function gotFileEntry(fileEntry, file, type) {
-    alert(fileEntry.fullPath);
+function gotFileEntry(fe, file, type) {
+
     var reader = new FileReader();
     reader.onloadend = function (event) {
         // shrink image
@@ -134,16 +134,25 @@ function gotFileEntry(fileEntry, file, type) {
             canvas.width = 400;
             canvas.height = newHeight;
             ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, newHeight);
-            var shrunkImg = canvas.toDataURL('image/jpeg');
 
-            // save image data to the phone storage
-            var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
+            // use setTimeout to allow the canvas to finish drawing
+            setTimeout(function () {
 
-            // Save the image path to the database
-            editCardView.card().UpdateImagePath(fileEntry.fullPath);
+                var shrunkImg = canvas.toDataURL('image/jpeg');
 
-            // Display the image
-            $("#imgDisplay").attr({ "src": shrunkImg });
+                // save image data to the phone storage
+                var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
+                fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
+
+                // Save the image path to the database
+                editCardView.card().UpdateImagePath(fe.fullPath);
+
+                // Display the image
+                $("#imgDisplay").attr({ "src": shrunkImg });
+            }, 0)
+
+
+
         }
     };
     reader.onerror = function (event) {

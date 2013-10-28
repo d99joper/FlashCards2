@@ -1,5 +1,8 @@
 // Regular expression for the editing card hashtag
-var pEditCard = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}/card/\[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$", ["i"]);
+var pCard = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}/card/\[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$", ["i"]);
+var pDeck = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$", ["i"]);
+var pHome = new RegExp("^#home$", ["i"]);
+var pStats = new RegExp("^#stats$", ["i"]);
 
 // Vibration times
 var vibrationTime1 = 5;
@@ -73,8 +76,7 @@ $(document).ready(function () {
     if (isPhonegap())
         document.addEventListener("deviceready", onDeviceReady, false);
     else
-        console.log("this is the browser"); 
-
+        console.log("this is the browser");
 
 });
 
@@ -83,7 +85,23 @@ function onDeviceReady() {
 	// Register the event listener
 	document.addEventListener("menubutton", onMenuKeyDown, false);
 	document.addEventListener("backbutton", onBackKeyDown, false);
+
+	// Create a directory, if it doesn't exist
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
 }
+
+function onRequestFileSystemSuccess(fileSystem) {
+    var entry = fileSystem.root;
+    entry.getDirectory("FlashCards", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
+}
+
+function onGetDirectorySuccess(dir) {
+    console.log("Created dir " + dir.name);
+}
+
+function onGetDirectoryFail(error) {
+    console.log("Error creating directory " + error.code);
+} 
 
 // Handle the menu button
 function onMenuKeyDown() {
@@ -93,21 +111,15 @@ function onMenuKeyDown() {
 
 // Handle the menu button
 function onBackKeyDown() {
-    if (pEditCard.test(window.location.hash)) {
-
+    navigator.notification.vibrate(vibrationTime1);
+    if (pCard.test(window.location.hash)) {
         editCardView.done();
-//        var validation = editCardView.card().Validate();
-
-//        if (validation.valid != true) {
-//            if (confirm("The card is not completed. Going back to the deck will delete the card. Are you sure you want to delete the card?" + validation[0].message)) {
-//                // delete the card
-//                editCardView.card().Delete();
-//            }
-//            else event.preventDefault();
-//        }
-    }
+    } else if (pDeck.test(window.location.hash) || pStats.test(window.location.hash)) {
+        location.hash = "home";
+     } else if (pHome.test(window.location.hash)) {
+         navigator.app.exitApp();
+     }
     else {
-        navigator.notification.vibrate(vibrationTime1);
         history.go(-1);
         //navigator.app.backHistory();
     }
