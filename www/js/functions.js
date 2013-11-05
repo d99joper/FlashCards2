@@ -32,6 +32,17 @@ function isPhonegap() {
     //return navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
 }
 
+
+// ****** ApiGee ********
+var client_creds = {
+    orgName: 'd99joper',
+    appName: 'flashcards'
+}
+//Initializes the ApiGee SDK. Also instantiates Apigee.MonitoringClient
+var apiGeeClient = new Apigee.Client(client_creds);
+
+
+
 $(document).ready(function () {
 
     $("#ddlAnswerType").change(function () {
