@@ -120,13 +120,13 @@ function uploadImage(file) {
 function getFileEnding(type) {
     if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
     switch (type.toLowerCase()) {
-        case: 'image/png'
+        case 'image/png':
             return ".png";
-        case: 'image/jpg'
+        case 'image/jpg':
             return ".jpg";
-        case: 'image/jpeg'
+        case 'image/jpeg':
             return ".jpg";
-        case: 'image/gif'
+        case 'image/gif':
             return ".gif";
         default:
             return "";
