@@ -70,7 +70,10 @@ ko.applyBindings(editCardView, element); //document.getElementById("#createCard"
 
 function uploadImage(file) {
 
-    if (isPhonegap()) {
+    if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+        alert("File doesnt match png, jpg or gif");
+
+    else if (isPhonegap()) {
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
             gotFS(fs, file, file.type);
         }, errorHandler);
@@ -80,8 +83,6 @@ function uploadImage(file) {
             alert("No file name specified.");
         //    else if (file.size > 300000)
         //        alert("File is to big");
-        else if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
-            alert("File doesnt match png, jpg or gif");
         else {
             var reader = new FileReader();
             reader.readAsDataURL(file);
@@ -93,10 +94,11 @@ function uploadImage(file) {
                 var img = document.createElement('img');
                 img.src = reader.result;
                 img.onload = function () {
-                    var newHeight = img.height / img.width * 400;
-                    canvas.width = 400;
+                    var newWidth = $('.page').width() * .85; //viewport.width * .7;
+                    var newHeight = img.height / img.width * newWidth;
+                    canvas.width = newWidth;
                     canvas.height = newHeight;
-                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, newHeight);
+                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
                     var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
                     // save image data to the phone storage
@@ -112,6 +114,22 @@ function uploadImage(file) {
                     errorHandler(event.target.error);
             }
         }
+    }
+}
+
+function getFileEnding(type) {
+    if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+    switch (type.toLowerCase()) {
+        case: 'image/png'
+            return ".png";
+        case: 'image/jpg'
+            return ".jpg";
+        case: 'image/jpeg'
+            return ".jpg";
+        case: 'image/gif'
+            return ".gif";
+        default:
+            return "";
     }
 }
 
@@ -131,7 +149,7 @@ function gotFileEntry(fe, file, type) {
         var img = document.createElement('img');
         img.src = reader.result;
         img.onload = function () {
-            alert("img.onload");
+                    
             var newHeight = img.height / img.width * 400;
             canvas.width = 400;
             canvas.height = newHeight;
@@ -143,7 +161,7 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvas.toDataURL().replace(/data:image\/jpeg;base64,/, '');
+                var imgData = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
                 var getWin = function (f) {
                     f.createWriter(writeWin, writeFail);
@@ -158,7 +176,7 @@ function gotFileEntry(fe, file, type) {
                     alert("Failed to retrieve file: " + error.code);
                 };
                 // copy file 
-                fe.copyTo(dirImg, "myCopy." + type, null, null);
+                fe.copyTo(dirImg, "myCopy" + getFileEnding(type), null, null);
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
 
                 // Save the image path to the database

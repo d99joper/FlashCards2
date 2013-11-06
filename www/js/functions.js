@@ -1,3 +1,9 @@
+// The viewport
+var viewport = {
+    width: $(window).width(),
+    height: $(window).height()
+};
+
 // Regular expression for the editing card hashtag
 var pCard = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}/card/\[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$", ["i"]);
 var pDeck = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$", ["i"]);
@@ -47,7 +53,8 @@ var apiGeeClient = new Apigee.Client(client_creds);
 
 
 $(document).ready(function () {
-
+    console.log(viewport.width);
+    console.log(viewport.height);
     $("#ddlAnswerType").change(function () {
         if ($("#ddlAnswerType").val() == 1) {
             $("#divAnswerText").show();
@@ -66,6 +73,11 @@ $(document).ready(function () {
         }
     });
 
+    $(window).bind('resize', function () {
+//        console.log('width = ' + $('.page').width());
+//        console.log('height = ' + $('.page').height());
+    }).trigger('resize');
+
     // Menu functions
     $('#menu').click(
         function (e) {
@@ -83,7 +95,7 @@ $(document).ready(function () {
     });
 
     // vibrate when a button is pressed 
-    $(".btn").click(function () { if(isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
+    $(".btn").click(function () { if (isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
     $("a").click(function () { if (isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
 
     // Initiate the PhoneGap onDeviceReady event
