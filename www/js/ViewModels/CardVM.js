@@ -116,12 +116,14 @@ function uploadImage(file) {
 }
 
 function gotFS(fileSystem, file, type) {
+    alert("gotFS");
     var flags = { create: true, exclusive: false };
     fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, fail);
 }
 
 function gotFileEntry(fe, file, type) {
 
+    alert("gotFileEntry");
     var reader = new FileReader();
     reader.onloadend = function (event) {
         // shrink image
@@ -130,6 +132,7 @@ function gotFileEntry(fe, file, type) {
         var img = document.createElement('img');
         img.src = reader.result;
         img.onload = function () {
+            alert("img.onload");
             var newHeight = img.height / img.width * 400;
             canvas.width = 400;
             canvas.height = newHeight;
@@ -138,15 +141,20 @@ function gotFileEntry(fe, file, type) {
             // use setTimeout to allow the canvas to finish drawing
             setTimeout(function () {
 
+                alert("setTimeout");
                 var shrunkImg = canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
                 var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
+                alert("trying to get file from");
+                alert(dirImg.name);
                 dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
                 var getWin = function (f) {
+                    alert("getWin");
                     f.createWriter(writeWin, writeFail);
                 };
                 var writeWin = function (writer) {
+                    alert("writeWin");
                     writer.write(imgData);
                 };
                 var writeFail = function (error) {
@@ -156,13 +164,16 @@ function gotFileEntry(fe, file, type) {
                     alert("Failed to retrieve file: " + error.code);
                 };
                 // copy file 
+                alert("copyTo");
                 fe.copyTo(dirImg, "myCopy", null, null);
-                fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
+                //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
 
                 // Save the image path to the database
+                alert(" Save path to image");
                 editCardView.card().UpdateImagePath(fe.fullPath);
 
                 // Display the image
+                alert(" Display the image");
                 $("#imgDisplay").attr({ "src": shrunkImg });
             }, 0)
 
