@@ -145,7 +145,7 @@
             
                 <h4>Image</h4>
                 <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">
-                <img id="imgDisplay" />
+                <img id="imgDisplay" data-bind="attr: {src: card().imageUrl}" />
             
                 <h4>Type</h4>
                 <select id="ddlAnswerType" class="btn btn-default" data-bind="value: card().typeId">

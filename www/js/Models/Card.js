@@ -15,7 +15,7 @@
 
     self.typeId.subscribe(function (newValue) { self.Save(); });
     self.question.subscribe(function (newValue) { self.Save(); });
-    self.id.subscribe(function (newValue) { $("#imgDisplay").attr({ "src": "" }); $("#imgUpload").val("") });
+    self.id.subscribe(function (newValue) { $("#imgDisplay").attr({ "src": self.imageUrl }); $("#imgUpload").val(self.imageUrl) });
 
     self.UpdateImagePath = function (path) {
         self.imageUrl = path;
