@@ -142,6 +142,11 @@ function gotFileEntry(fe, file, type) {
 
                 // save image data to the phone storage
                 var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
+//                var writeFun = function gotFileWriter(writer) {
+//                    writer.write
+//                };
+                // copy file 
+                fe.copyTo(dirImg, "myCopy", null, null);
                 fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
 
                 // Save the image path to the database

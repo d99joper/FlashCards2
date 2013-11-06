@@ -4,6 +4,9 @@ var pDeck = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[
 var pHome = new RegExp("^#home$", ["i"]);
 var pStats = new RegExp("^#stats$", ["i"]);
 
+// Image directory for the phones
+var dirImg;
+
 // Vibration times
 var vibrationTime1 = 5;
 
@@ -107,6 +110,7 @@ function onRequestFileSystemSuccess(fileSystem) {
 }
 
 function onGetDirectorySuccess(dir) {
+    dirImg = dir;
     console.log("Created dir " + dir.name);
 }
 
