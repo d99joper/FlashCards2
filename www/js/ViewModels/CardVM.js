@@ -117,8 +117,12 @@ function uploadImage(file) {
 
 function gotFS(fileSystem, file, type) {
     alert("gotFS");
+    alert(fileSystem);
+    alert(file);
+    alert(file.name);
+    alert(type);
     var flags = { create: true, exclusive: false };
-    fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, fail);
+    fileSystem.root.getFile(file.name, flags, function (fe) { alert("about to go to gotFileEntry"); gotFileEntry(fe, file, type); }, errorHandler2);
 }
 
 function gotFileEntry(fe, file, type) {
