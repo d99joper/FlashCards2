@@ -142,9 +142,19 @@ function gotFileEntry(fe, file, type) {
 
                 // save image data to the phone storage
                 var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
-//                var writeFun = function gotFileWriter(writer) {
-//                    writer.write
-//                };
+                dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
+                var getWin = function (f) {
+                    f.createWriter(writeWin, writeFail);
+                };
+                var writeWin = function (writer) {
+                    writer.write(imgData);
+                };
+                var writeFail = function (error) {
+                    alert("Failed to write file: " + error.code);
+                };
+                var getFail = function (error) {
+                    alert("Failed to retrieve file: " + error.code);
+                };
                 // copy file 
                 fe.copyTo(dirImg, "myCopy", null, null);
                 fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });

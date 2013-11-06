@@ -111,6 +111,9 @@ function onRequestFileSystemSuccess(fileSystem) {
 
 function onGetDirectorySuccess(dir) {
     dirImg = dir;
+    alert("Created dir " + dir.name);
+    alert(dirImg);
+    alert(dirImg.name);
     console.log("Created dir " + dir.name);
 }
 
