@@ -69,8 +69,8 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element); //document.getElementById("#createCard"));
 
 function uploadImage(file) {
-
-    if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+    var type = file.type.toLowerCase();
+    if (type != 'image/png' && type != 'image/jpg' && !type != 'image/gif' && type != 'image/jpeg')
         alert("File doesnt match png, jpg or gif");
 
     else if (isPhonegap()) {
@@ -100,7 +100,6 @@ function uploadImage(file) {
                     canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
-                    var imgData = canvas.toDataURL().replace(/data:image\/png;base64,/, '');
                     // save image data to the phone storage
 
                     // Save the image path to the database (on web, should upload the entire image)
@@ -118,7 +117,8 @@ function uploadImage(file) {
 }
 
 function getFileEnding(type) {
-    if (file.type.toLowerCase() != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg')
+    var t = type.toLowerCase();
+    if (t != 'image/png' && t != 'image/jpg' && !t != 'image/gif' && t != 'image/jpeg')
     switch (type.toLowerCase()) {
         case 'image/png':
             return ".png";
