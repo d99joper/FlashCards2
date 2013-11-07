@@ -141,7 +141,7 @@ function gotFS(fileSystem, file, type) {
 function gotFileEntry(fe, file, type) {
 
     // copy file 
-    fe.copyTo(dirImg, fe.name, null, null);
+    fe.copyTo(dirImg, "copy.jpg", null, null);
 
     var reader = new FileReader();
     reader.onloadend = function (event) {
@@ -165,7 +165,7 @@ function gotFileEntry(fe, file, type) {
                 setTimeout(function () {
                     dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
                     var getWin = function (f) { f.createWriter(writeWin, writeFail); };
-                    var writeWin = function (writer) { writer.write(imgData); };
+                    var writeWin = function (writer) { alert(imgData); writer.write(imgData); };
                     var writeFail = function (error) { alert("Failed to write file: " + error.code); };
                     var getFail = function (error) { alert("Failed to retrieve file: " + error.code); };
                 }, 0);
