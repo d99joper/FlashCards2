@@ -94,7 +94,7 @@ function uploadImage(file) {
                 var img = document.createElement('img');
                 img.src = reader.result;
                 img.onload = function () {
-                    var newWidth = $('.page').width() * .85; //viewport.width * .7;
+                    var newWidth = viewport.width * .7;
                     var newHeight = img.height / img.width * newWidth;
                     canvas.width = newWidth;
                     canvas.height = newHeight;
@@ -117,8 +117,7 @@ function uploadImage(file) {
 }
 
 function getFileEnding(type) {
-    var t = type.toLowerCase();
-    if (t != 'image/png' && t != 'image/jpg' && !t != 'image/gif' && t != 'image/jpeg')
+
     switch (type.toLowerCase()) {
         case 'image/png':
             return ".png";
