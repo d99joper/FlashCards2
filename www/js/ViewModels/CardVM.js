@@ -170,7 +170,7 @@ function gotFileEntry(fe, file, type) {
                 }, 0);
                 var data = Base64Binary.decode(imgData64)
                 setTimeout(function () {
-                    dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
+                    dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
                 //var uintArray = Base64Binary.decode(data);
