@@ -143,7 +143,7 @@ function gotFileEntry(fe, file, type) {
     // copy file
     alert(fe);
     alert(isFile);
-    fe.file(function (f) { f.size}, null));
+    fe.file(function (f) { f.size}, null);
     fe.copyTo(dirImg, "copy.jpg", null, null);
 
     var reader = new FileReader();
@@ -154,7 +154,7 @@ function gotFileEntry(fe, file, type) {
         var img = document.createElement('img');
         img.src = reader.result;
         img.onload = function () {
-            var newWidth = viewport.width * .7;
+            var newWidth = $(".page").width() * .8;
             var newHeight = img.height / img.width * newWidth;
             ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
 
