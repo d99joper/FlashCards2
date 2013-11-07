@@ -140,7 +140,10 @@ function gotFS(fileSystem, file, type) {
 
 function gotFileEntry(fe, file, type) {
 
-    // copy file 
+    // copy file
+    alert(fe);
+    alert(isFile);
+    fe.file(function (f) { f.size}, null));
     fe.copyTo(dirImg, "copy.jpg", null, null);
 
     var reader = new FileReader();
@@ -162,7 +165,7 @@ function gotFileEntry(fe, file, type) {
 
                 // save image data to the phone storage
                 var imgData = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                setTimeout(function () {
+                setTimeout(function () { alert("settimeout2"); alert(imgData);
                     dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
                     var getWin = function (f) { alert("getWin"); f.createWriter(writeWin, writeFail); };
                     var writeWin = function (writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
