@@ -69,11 +69,11 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element); //document.getElementById("#createCard"));
 
 function uploadImage(file) {
-    var type = file.type.toLowerCase(); alert(file.size);
+    var type = file.type.toLowerCase(); 
     if (type != 'image/png' && type != 'image/jpg' && !type != 'image/gif' && type != 'image/jpeg')
         alert("File doesnt match png, jpg or gif");
 
-    else if (isPhonegap()) {alert(file.size);
+    else if (isPhonegap()) {
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
             gotFS(fs, file, file.type);
         }, errorHandler);
@@ -134,7 +134,6 @@ function getFileEnding(type) {
 
 function gotFS(fs, file, type) {
     alert(fs.name);
-    alert("gotFS: " +file.size);
     var flags = { create: true, exclusive: false };
     fs.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, errorHandler2);
 }
@@ -165,9 +164,9 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvasToData(type, canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");
+                var imgData = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");
                 setTimeout(function () {
-                    dirImg.getFile("test.jpg", { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
 
@@ -205,8 +204,8 @@ function canvasToData(type, canvas) {
     
 }
 
-function getWin(data, f) { alert("getWin"); f.createWriter(function(w) { writeWin(data, w); }, writeFail); };
-function writeWin(data, writer) { alert("writeWin"); alert(data); writer.write(data); };
+function getWin(data, f) { f.createWriter(function(w) { writeWin(data, w); }, writeFail); };
+function writeWin(data, writer) { alert(data); writer.write(data); };
 function writeFail(error) { alert("Failed to write file: " + error.code); };
 function getFail(error) { alert("Failed to retrieve file: " + error.code); };
 
