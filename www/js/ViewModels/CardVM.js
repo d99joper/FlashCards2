@@ -96,8 +96,8 @@ function uploadImage(file) {
                 img.onload = function () {
                     var newWidth = viewport.width * .7;
                     var newHeight = img.height / img.width * newWidth;
-//                    canvas.width = newWidth;
-//                    canvas.height = newHeight;
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
                     // save image data to the phone storage
@@ -141,7 +141,7 @@ function gotFS(fileSystem, file, type) {
 function gotFileEntry(fe, file, type) {
 
     // copy file
-    fe.file(function (f) { f.size}, null);
+    fe.file(function (f) { f.size }, function (e) { e.code });
     fe.copyTo(dirImg, "copy.jpg", null, null);
 
     var reader = new FileReader();
@@ -154,6 +154,8 @@ function gotFileEntry(fe, file, type) {
         img.onload = function () {
             var newWidth = $(".page").width() * .8;
             var newHeight = img.height / img.width * newWidth;
+            canvas.width = newWidth;
+            canvas.height = newHeight;
             ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
 
             // use setTimeout to allow the canvas to finish drawing
@@ -186,9 +188,7 @@ function gotFileEntry(fe, file, type) {
 }
 
 function canvasToData(type, canvas) {
-    alert("canvasToData");
-    alert(type);
-    alert(canvas);
+
     switch (type.toLowerCase()) {
         case 'image/png':
             return canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
