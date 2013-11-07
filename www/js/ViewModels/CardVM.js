@@ -164,8 +164,8 @@ function gotFileEntry(fe, file, type) {
                 var imgData = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 setTimeout(function () {
                     dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
-                    var getWin = function (f) { f.createWriter(writeWin, writeFail); };
-                    var writeWin = function (writer) { alert(imgData); writer.write(imgData); };
+                    var getWin = function (f) { alert("getWin"); f.createWriter(writeWin, writeFail); };
+                    var writeWin = function (writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
                     var writeFail = function (error) { alert("Failed to write file: " + error.code); };
                     var getFail = function (error) { alert("Failed to retrieve file: " + error.code); };
                 }, 0);
