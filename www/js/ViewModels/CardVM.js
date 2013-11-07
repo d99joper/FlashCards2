@@ -142,7 +142,7 @@ function gotFileEntry(fe, file, type) {
 
     // copy file
     alert(fe);
-    alert(isFile);
+    alert(fe.isFile);
     fe.file(function (f) { f.size}, null);
     fe.copyTo(dirImg, "copy.jpg", null, null);
 
