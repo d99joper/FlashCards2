@@ -161,7 +161,7 @@ function gotFileEntry(fe, file, type) {
             // use setTimeout to allow the canvas to finish drawing
             setTimeout(function () {
 
-                var shrunkImg = canvas.toDataURL('image/jpeg');
+                var shrunkImg = canvasToData(canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
                 var imgData = canvasToData(canvas); //canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
@@ -190,7 +190,9 @@ function gotFileEntry(fe, file, type) {
 }
 
 function canvasToData(type, canvas) {
-
+    alert("canvasToData");
+    alert(type);
+    alert(canvas);
     switch (type.toLowerCase()) {
         case 'image/png':
             return canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
