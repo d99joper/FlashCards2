@@ -69,11 +69,11 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element); //document.getElementById("#createCard"));
 
 function uploadImage(file) {
-    var type = file.type.toLowerCase();
+    var type = file.type.toLowerCase(); alert(file.size);
     if (type != 'image/png' && type != 'image/jpg' && !type != 'image/gif' && type != 'image/jpeg')
         alert("File doesnt match png, jpg or gif");
 
-    else if (isPhonegap()) {
+    else if (isPhonegap()) {alert(file.size);
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
             gotFS(fs, file, file.type);
         }, errorHandler);
@@ -133,7 +133,7 @@ function getFileEnding(type) {
 }
 
 function gotFS(fileSystem, file, type) {
-    
+    alert(file.size);
     var flags = { create: true, exclusive: false };
     fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, errorHandler2);
 }
