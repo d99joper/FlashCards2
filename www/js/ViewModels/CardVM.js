@@ -164,13 +164,10 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                setTimeout(function () { alert("settimeout2"); alert(imgData);
+                var imgData = canvasToData(canvas); //canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                setTimeout(function () {
+                    alert(imgData);
                     dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
-                    var getWin = function (f) { alert("getWin"); f.createWriter(writeWin, writeFail); };
-                    var writeWin = function (writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
-                    var writeFail = function (error) { alert("Failed to write file: " + error.code); };
-                    var getFail = function (error) { alert("Failed to retrieve file: " + error.code); };
                 }, 0);
 
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
@@ -191,6 +188,28 @@ function gotFileEntry(fe, file, type) {
     };
     reader.readAsDataURL(file);
 }
+
+function canvasToData(type, canvas) {
+
+    switch (type.toLowerCase()) {
+        case 'image/png':
+            return canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        case 'image/jpg':
+            return canvas.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream");
+        case 'image/jpeg':
+            return canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+        case 'image/gif':
+            return canvas.toDataURL("image/gif").replace("image/gif", "image/octet-stream");
+        default:
+            return "";
+    }
+    
+}
+
+function getWin(f) { alert("getWin"); f.createWriter(writeWin, writeFail); };
+function writeWin(writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
+function writeFail(error) { alert("Failed to write file: " + error.code); };
+function getFail(error) { alert("Failed to retrieve file: " + error.code); };
 
 function errorHandler2(e) {
     var msg = '';
