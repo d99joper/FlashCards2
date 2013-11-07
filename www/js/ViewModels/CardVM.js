@@ -100,6 +100,8 @@ function uploadImage(file) {
                     canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
+                    setTimeout(function () { var data = Base64Binary.decode(shrunkImg); alert(data[0]); }, 0);
+
                     // save image data to the phone storage
 
                     // Save the image path to the database (on web, should upload the entire image)
@@ -168,8 +170,9 @@ function gotFileEntry(fe, file, type) {
                     dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
-                var data = Base64Binary.decode(imgData64)
+
                 setTimeout(function () {
+                    var data = Base64Binary.decode(imgData64);
                     dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
