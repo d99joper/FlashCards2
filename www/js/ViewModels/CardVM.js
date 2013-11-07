@@ -164,9 +164,9 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvasToData(type, canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");
+                var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
                 setTimeout(function () {
-                    dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
 
@@ -205,7 +205,7 @@ function canvasToData(type, canvas) {
 }
 
 function getWin(data, f) { f.createWriter(function(w) { writeWin(data, w); }, writeFail); };
-function writeWin(data, writer) { alert(data); writer.write(data); };
+function writeWin(data64, writer) { alert(atob(data64)); writer.write(atob(data64)); };
 function writeFail(error) { alert("Failed to write file: " + error.code); };
 function getFail(error) { alert("Failed to retrieve file: " + error.code); };
 
