@@ -96,8 +96,8 @@ function uploadImage(file) {
                 img.onload = function () {
                     var newWidth = viewport.width * .7;
                     var newHeight = img.height / img.width * newWidth;
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
+//                    canvas.width = newWidth;
+//                    canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
                     // save image data to the phone storage
@@ -140,6 +140,9 @@ function gotFS(fileSystem, file, type) {
 
 function gotFileEntry(fe, file, type) {
 
+    // copy file 
+    fe.copyTo(dirImg, fe.name, null, null);
+
     var reader = new FileReader();
     reader.onloadend = function (event) {
         // shrink image
@@ -148,11 +151,9 @@ function gotFileEntry(fe, file, type) {
         var img = document.createElement('img');
         img.src = reader.result;
         img.onload = function () {
-                    
-            var newHeight = img.height / img.width * 400;
-            canvas.width = 400;
-            canvas.height = newHeight;
-            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, newHeight);
+            var newWidth = viewport.width * .7;
+            var newHeight = img.height / img.width * newWidth;
+            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
 
             // use setTimeout to allow the canvas to finish drawing
             setTimeout(function () {
@@ -161,21 +162,14 @@ function gotFileEntry(fe, file, type) {
 
                 // save image data to the phone storage
                 var imgData = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
-                var getWin = function (f) {
-                    f.createWriter(writeWin, writeFail);
-                };
-                var writeWin = function (writer) {
-                    writer.write(imgData);
-                };
-                var writeFail = function (error) {
-                    alert("Failed to write file: " + error.code);
-                };
-                var getFail = function (error) {
-                    alert("Failed to retrieve file: " + error.code);
-                };
-                // copy file 
-                fe.copyTo(dirImg, "myCopy" + getFileEnding(type), null, null);
+                setTimeout(function () {
+                    dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
+                    var getWin = function (f) { f.createWriter(writeWin, writeFail); };
+                    var writeWin = function (writer) { writer.write(imgData); };
+                    var writeFail = function (error) { alert("Failed to write file: " + error.code); };
+                    var getFail = function (error) { alert("Failed to retrieve file: " + error.code); };
+                }, 0);
+
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
 
                 // Save the image path to the database
