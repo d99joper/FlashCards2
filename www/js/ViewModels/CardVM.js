@@ -161,10 +161,10 @@ function gotFileEntry(fe, file, type) {
             // use setTimeout to allow the canvas to finish drawing
             setTimeout(function () {
 
-                var shrunkImg = canvasToData(canvas); //canvas.toDataURL('image/jpeg');
+                var shrunkImg = canvasToData(type, canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvasToData(canvas); //canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                var imgData = canvasToData(type, canvas); //canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 setTimeout(function () {
                     alert(imgData);
                     dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
@@ -178,8 +178,6 @@ function gotFileEntry(fe, file, type) {
                 // Display the image
                 $("#imgDisplay").attr({ "src": shrunkImg });
             }, 0)
-
-
 
         }
     };
