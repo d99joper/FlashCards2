@@ -141,8 +141,6 @@ function gotFS(fileSystem, file, type) {
 function gotFileEntry(fe, file, type) {
 
     // copy file
-    alert(fe);
-    alert(fe.isFile);
     fe.file(function (f) { f.size}, null);
     fe.copyTo(dirImg, "copy.jpg", null, null);
 
@@ -167,7 +165,7 @@ function gotFileEntry(fe, file, type) {
                 var imgData = canvasToData(type, canvas); //canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 setTimeout(function () {
                     alert(imgData);
-                    dirImg.getFile(file.name, { create: true, exclusive: false }, getWin, getFail);
+                    dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
 
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
@@ -206,8 +204,8 @@ function canvasToData(type, canvas) {
     
 }
 
-function getWin(f) { alert("getWin"); f.createWriter(writeWin, writeFail); };
-function writeWin(writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
+function getWin(data, f) { alert("getWin"); f.createWriter(function(w) { writeWin(data, w); }, writeFail); };
+function writeWin(data, writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
 function writeFail(error) { alert("Failed to write file: " + error.code); };
 function getFail(error) { alert("Failed to retrieve file: " + error.code); };
 
