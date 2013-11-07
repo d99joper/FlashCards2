@@ -132,14 +132,15 @@ function getFileEnding(type) {
     }
 }
 
-function gotFS(fileSystem, file, type) {
-    alert(file.size);
+function gotFS(fs, file, type) {
+    alert(fs.name);
+    alert("gotFS: " +file.size);
     var flags = { create: true, exclusive: false };
-    fileSystem.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, errorHandler2);
+    fs.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, errorHandler2);
 }
 
 function gotFileEntry(fe, file, type) {
-    alert("gotFileEntry" + file.size);
+    alert("gotFileEntry: " + file.size);
     // copy file
     fe.file(function (f) { alert(f.size); }, function (e) { alert(e.code); });
     fe.copyTo(dirImg, "copy.jpg", function(f) {alert("successful copy: " + f.fullPath);}, null);
@@ -164,9 +165,9 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvasToData(type, canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvasToData(type, canvas); //canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                var imgData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                 setTimeout(function () {
-                    alert(imgData);
+                    
                     dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
 
@@ -205,7 +206,7 @@ function canvasToData(type, canvas) {
 }
 
 function getWin(data, f) { alert("getWin"); f.createWriter(function(w) { writeWin(data, w); }, writeFail); };
-function writeWin(data, writer) { alert("writeWin"); alert(imgData); writer.write(imgData); };
+function writeWin(data, writer) { alert("writeWin"); alert(data); writer.write(data); };
 function writeFail(error) { alert("Failed to write file: " + error.code); };
 function getFail(error) { alert("Failed to retrieve file: " + error.code); };
 
