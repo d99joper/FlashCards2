@@ -139,7 +139,7 @@ function gotFS(fileSystem, file, type) {
 }
 
 function gotFileEntry(fe, file, type) {
-
+    alert("gotFileEntry" + file.size);
     // copy file
     fe.file(function (f) { alert(f.size); }, function (e) { alert(e.code); });
     fe.copyTo(dirImg, "copy.jpg", function(f) {alert("successful copy: " + f.fullPath);}, null);
