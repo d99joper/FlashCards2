@@ -165,10 +165,10 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvasToData(type, canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-                var imgData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                var imgData = canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");
                 setTimeout(function () {
-                    
-                    dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    dirImg.getFile("test.jpg", { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
 
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
