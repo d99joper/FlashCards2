@@ -141,8 +141,8 @@ function gotFS(fileSystem, file, type) {
 function gotFileEntry(fe, file, type) {
 
     // copy file
-    fe.file(function (f) { f.size }, function (e) { e.code });
-    fe.copyTo(dirImg, "copy.jpg", null, null);
+    fe.file(function (f) { alert(f.size); }, function (e) { alert(e.code); });
+    fe.copyTo(dirImg, "copy.jpg", function(f) {alert("successful copy: " + f.fullPath);}, null);
 
     var reader = new FileReader();
     reader.onloadend = function (event) {
