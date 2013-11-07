@@ -133,7 +133,6 @@ function getFileEnding(type) {
 }
 
 function gotFS(fs, file, type) {
-    alert(fs.name);
     var flags = { create: true, exclusive: false };
     fs.root.getFile(file.name, flags, function (fe) { gotFileEntry(fe, file, type); }, errorHandler2);
 }
@@ -166,6 +165,7 @@ function gotFileEntry(fe, file, type) {
                 // save image data to the phone storage
                 var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
                 setTimeout(function () {
+                    alert(imgData64);
                     dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
