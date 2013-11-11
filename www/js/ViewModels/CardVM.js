@@ -74,7 +74,7 @@ function uploadImage(file) {
         alert("File doesnt match png, jpg or gif");
 
     else if (isPhonegap()) {
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) {
             gotFS(fs, file, file.type);
         }, errorHandler);
     }
