@@ -185,7 +185,7 @@ function gotFileEntry(fe, file, type) {
 
                 setTimeout(function () {
                     //var data = Base64Binary.decode(imgData64);
-                    var data = Base64Binary.decode(imgData64);
+                    var data = Base64Binary.decode(shrunkImg);
                     var str = String.fromCharCode.apply(null, data); // "ÿ8É"
                     console.log(str);
                     // to Base64
