@@ -85,22 +85,33 @@ function uploadImage(file) {
         //        alert("File is to big");
         else {
             var reader = new FileReader();
+            //reader.readAsBinaryString(file);
+            //reader.readAsText(file);
             reader.readAsDataURL(file);
             reader.onloadend = function (event) {
-
+                console.log(reader.result);
                 // shrink image
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
                 var img = document.createElement('img');
                 img.src = reader.result;
                 img.onload = function () {
+                    console.log("image loaded");
                     var newWidth = viewport.width * .7;
                     var newHeight = img.height / img.width * newWidth;
                     canvas.width = newWidth;
                     canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
-                    setTimeout(function () { var data = Base64Binary.decode(shrunkImg); alert(data[0]); }, 0);
+                    setTimeout(function () {
+                        var data = Base64Binary.decode(shrunkImg);
+                        str = String.fromCharCode.apply(null, data); // "ÿ8É"
+                        console.log(str);
+                        // to Base64
+                        b64 = btoa(str); // "/zjJCA=="
+                        console.log(b64);
+                        var imgData = ctx.getImageData(10, 10, 50, 50); console.log(imgData);
+                    }, 0);
 
                     // save image data to the phone storage
 
@@ -140,12 +151,10 @@ function gotFS(fs, file, type) {
 }
 
 function gotFileEntry(fe, file, type) {
-    alert("gotFileEntry: " + file.size);
+    //alert("gotFileEntry: " + file.size);
     // copy file
-    alert(fe.fullPath);
-    alert(f.fullPath);
-    fe.file(function (f) { alert(f.size); }, function (e) { alert(e.code); });
-    fe.copyTo(dirImg, "copy.jpg", function(f) {alert("successful copy: " + f.fullPath);}, null);
+    //fe.file(function (f) { alert(f.size); }, function (e) { alert(e.code); });
+    //fe.copyTo(dirImg, "copy.jpg", function(f) {alert("successful copy: " + f.fullPath);}, null);
 
     var reader = new FileReader();
     reader.onloadend = function (event) {
@@ -175,10 +184,16 @@ function gotFileEntry(fe, file, type) {
                 }, 0);
 
                 setTimeout(function () {
-                    var data = Base64Binary.decode(imgData64);
+                    //var data = Base64Binary.decode(imgData64);
+                    var data = Base64Binary.decode(shrunkImg);
+                    var str = String.fromCharCode.apply(null, data); // "ÿ8É"
+                    console.log(str);
+                    // to Base64
+                    var b64 = btoa(str); // "/zjJCA=="
+                    console.log(b64);
                     setTimeout(function () {
-                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
-                        dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(data, f); }, getFail);
+                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(str, f); }, getFail);
+                        dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(b64, f); }, getFail);
                         //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                     }, 0);
                 }, 0);
