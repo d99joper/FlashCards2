@@ -178,21 +178,21 @@ function gotFileEntry(fe, file, type) {
                 // save image data to the phone storage
                 var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
                 setTimeout(function () {
-                    dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
-                    dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
-                    dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
+                    //dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
+                    //dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
+                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
                 }, 0);
 
                 setTimeout(function () {
                     //var data = Base64Binary.decode(imgData64);
-                    var data = Base64Binary.decode(shrunkImg);
+                    var data = Base64Binary.decode(imgData64);
                     var str = String.fromCharCode.apply(null, data); // "ÿ8É"
                     console.log(str);
                     // to Base64
                     var b64 = btoa(str); // "/zjJCA=="
                     console.log(b64);
                     setTimeout(function () {
-                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(str, f); }, getFail);
+                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin2(str, f); }, getFail);
                         dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(b64, f); }, getFail);
                         //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                     }, 0);
