@@ -174,9 +174,11 @@ function gotFileEntry(fe, file, type) {
 
                 setTimeout(function () {
                     var data = Base64Binary.decode(imgData64);
-                    dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
-                    dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(data, f); }, getFail);
-                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    setTimeout(function () {
+                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
+                        dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(data, f); }, getFail);
+                        //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    }, 0);
                 }, 0);
                 //var uintArray = Base64Binary.decode(data);
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
