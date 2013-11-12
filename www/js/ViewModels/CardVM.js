@@ -168,12 +168,14 @@ function gotFileEntry(fe, file, type) {
                 var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
                 setTimeout(function () {
                     dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
-                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                    dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
+                    dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
                 }, 0);
 
                 setTimeout(function () {
                     var data = Base64Binary.decode(imgData64);
                     dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
+                    dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(data, f); }, getFail);
                     //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                 }, 0);
                 //var uintArray = Base64Binary.decode(data);
@@ -211,12 +213,10 @@ function canvasToData(type, canvas) {
     
 }
 
-function getWin(data, f) { f.createWriter(function(w) { writeWin(data, w); }, writeFail); };
-function writeWin(data, writer) {
-    
-    writer.write(data);
-    //writer.write(atob(data64)); 
-};
+function getWin(data, f) { f.createWriter(function (w) { writeWin(data, w); }, writeFail); };
+function getWin2(data, f) { f.createWriter(function (w) { writeWin2(data, w); }, writeFail); };
+function writeWin(data, writer) { writer.write(atob(data64)); };
+function writeWin2(data, writer) { writer.write(data); };
 function writeFail(error) { alert("Failed to write file: " + error.code); };
 function getFail(error) { alert("Failed to retrieve file: " + error.code); };
 
