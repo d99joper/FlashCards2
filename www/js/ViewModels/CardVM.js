@@ -142,6 +142,8 @@ function gotFS(fs, file, type) {
 function gotFileEntry(fe, file, type) {
     alert("gotFileEntry: " + file.size);
     // copy file
+    alert(fe.fullPath);
+    alert(f.fullPath);
     fe.file(function (f) { alert(f.size); }, function (e) { alert(e.code); });
     fe.copyTo(dirImg, "copy.jpg", function(f) {alert("successful copy: " + f.fullPath);}, null);
 
