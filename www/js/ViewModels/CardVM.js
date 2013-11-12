@@ -168,14 +168,14 @@ function gotFileEntry(fe, file, type) {
                 var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
                 setTimeout(function () {
                     dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
-                    dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
-                    dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
+                    //dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
+                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
                 }, 0);
 
                 setTimeout(function () {
                     var data = Base64Binary.decode(imgData64);
                     setTimeout(function () {
-                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
+                        //dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin(data, f); }, getFail);
                         dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(data, f); }, getFail);
                         //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
                     }, 0);
