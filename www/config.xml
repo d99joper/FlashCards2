@@ -21,6 +21,7 @@
 
   <preference name="phonegap-version" value="3.0.0" />
 
+  <gap:plugin name="org.devgeeks.canvas2imageplugin" />
   <gap:plugin name="org.apache.cordova.file" />
   <gap:plugin name="org.apache.cordova.file-transfer" />
   <gap:plugin name="org.apache.cordova.dialogs" />

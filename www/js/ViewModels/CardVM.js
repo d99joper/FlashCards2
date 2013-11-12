@@ -169,7 +169,15 @@ function gotFileEntry(fe, file, type) {
             canvas.width = newWidth;
             canvas.height = newHeight;
             ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
-
+            window.canvas2ImagePlugin.saveImageDataToLibrary(
+        function (msg) {
+            alert(msg);
+        },
+        function (err) {
+            alert(err);
+        },
+        canvas
+    );
             // use setTimeout to allow the canvas to finish drawing
             setTimeout(function () {
 
