@@ -212,7 +212,8 @@ function gotFileEntry(fe, file, type) {
     reader.onerror = function (event) {
         errorHandler2(event.target.error.code);
     };
-    reader.readAsBinaryString(file);
+    //reader.readAsBinaryString(file);
+    reader.readAsDataURL(file);
 }
 
 function canvasToData(type, canvas) {
