@@ -10,8 +10,8 @@ var pDeck = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[
 var pHome = new RegExp("^#home$", ["i"]);
 var pStats = new RegExp("^#stats$", ["i"]);
 
-// Image directory for the phones
-var dirImg;
+var dirRoot;  // Phone root directory
+var dirImg; // Image directory for the phones
 
 // Vibration times
 var vibrationTime1 = 5;
@@ -117,8 +117,8 @@ function onDeviceReady() {
 }
 
 function onRequestFileSystemSuccess(fileSystem) {
-    var entry = fileSystem.root;
-    entry.getDirectory("FlashCards", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
+    dirRoot = fileSystem.root;
+    dirRoot.getDirectory("FlashCards", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
 }
 
 function onGetDirectorySuccess(dir) {

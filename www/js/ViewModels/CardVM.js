@@ -103,9 +103,12 @@ function uploadImage(file) {
                     canvas.height = newHeight;
                     ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
                     var shrunkImg = canvas.toDataURL('image/jpeg');
+                    var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
                     setTimeout(function () {
-                        var data = Base64Binary.decode(shrunkImg);
-                        str = String.fromCharCode.apply(null, data); // "ÿ8É"
+                        var data = Base64Binary.decode(imgData64);
+                        var str = "";
+                        for (var i = 0, l = data.length; i < l; i++)
+                            str += String.fromCharCode(data[i]);
                         console.log(str);
                         // to Base64
                         b64 = btoa(str); // "/zjJCA=="
@@ -169,15 +172,22 @@ function gotFileEntry(fe, file, type) {
             canvas.width = newWidth;
             canvas.height = newHeight;
             ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
-            window.canvas2ImagePlugin.saveImageDataToLibrary(
-        function (msg) {
-            alert(msg);
-        },
-        function (err) {
-            alert(err);
-        },
-        canvas
-    );
+
+            var resultFile = window.canvas2ImagePlugin.saveImageDataToLibrary(
+                function (path) {
+                    alert(path);
+                    dirRoot.getFile(path, { create: true, exclusive: false },
+                        function (fe2) {
+                            fe2.moveTo(dirImg, "moved.png", function (msg) { alert("success: " + msg); }, function(e) {alert(error.code);});
+                        }
+                        , errorHandler2);
+                },
+                function (err) {
+                    alert(err);
+                },
+                canvas
+            );
+
             // use setTimeout to allow the canvas to finish drawing
             setTimeout(function () {
 
@@ -192,10 +202,13 @@ function gotFileEntry(fe, file, type) {
                 }, 0);
 
                 setTimeout(function () {
-                    //var data = Base64Binary.decode(imgData64);
-                    var data = Base64Binary.decode(shrunkImg);
-                    var str = String.fromCharCode.apply(null, data); // "ÿ8É"
-                    console.log(str);
+                    var data = Base64Binary.decode(imgData64);
+                    var str = "";
+                    for (var i = 0, l = data.length; i < l; i++)
+                        str += String.fromCharCode(data[i]);
+                    //var data = Base64Binary.decode(shrunkImg);
+                    //var str = String.fromCharCode.apply(null, data); // "ÿ8É"
+                    //console.log(str);
                     // to Base64
                     var b64 = btoa(str); // "/zjJCA=="
                     console.log(b64);
