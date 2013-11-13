@@ -17,6 +17,7 @@
             alert(path);
             return path;
         }
+        else return self.card().imageUrl
     }
 
     self.addAnswer = function () {
