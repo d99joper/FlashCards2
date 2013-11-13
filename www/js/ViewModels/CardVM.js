@@ -104,41 +104,41 @@ function uploadImage(file) {
                 var shrunkImg = canvas.toDataURL('image/jpeg');
                 // Display the image
                 $("#imgDisplay").attr({ "src": shrunkImg });
+
+                var imageName = GenerateGuid();
+                if (isPhonegap()) imageName += ".png";
+                else imageName += getFileEnding(file.type);
+
+                // Save the image path to the database (on web, should upload the entire image)
+                editCardView.card().UpdateImagePath(imageName);
+
+                if (isPhonegap()) {
+                    // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);    
+                    window.canvas2ImagePlugin.saveImageDataToLibrary(
+                        function (filePath) {
+                            alert(filePath);
+                            dirRoot.getFile(filePath, { create: true, exclusive: false },
+                                function (fe) {
+                                    alert(fe.fullPath);
+                                    fe.moveTo(dirImg, imageName,
+                                        function (msg) {
+                                            // Save the image path to the database
+                                            editCardView.card().UpdateImagePath(imageName);
+                                        }
+                                        , function (e) { alert("Failed to move image. \n" + error.code); }
+                                    );
+                                }
+                                , errorHandler2);
+                        },
+                        function (err) {
+                            alert("Failed saving image to card. \n" + err);
+                        },
+                        canvas
+                    );
+                }
             }
             if (event.target.error)
                 errorHandler(event.target.error);
-        }
-
-        var imageName = GenerateGuid();
-        if (isPhonegap()) imageName += ".png";
-        else imageName += getFileEnding(file.type); 
-
-        // Save the image path to the database (on web, should upload the entire image)
-        editCardView.card().UpdateImagePath(imageName);
-
-        if (isPhonegap()) {
-            // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);    
-            window.canvas2ImagePlugin.saveImageDataToLibrary(
-                function (filePath) {
-                    alert(filePath);
-                    dirRoot.getFile(filePath, { create: true, exclusive: false },
-                        function (fe) {
-                            alert(fe.fullPath);
-                            fe.moveTo(dirImg, imageName,
-                                function (msg) {
-                                    // Save the image path to the database
-                                    editCardView.card().UpdateImagePath(imageName);
-                                }
-                                , function (e) { alert("Failed to move image. \n" + error.code); }
-                            );
-                        }
-                        , errorHandler2);
-                },
-                function (err) {
-                    alert("Failed saving image to card. \n" + err);
-                },
-                canvas
-            );
         }
     }
 }
