@@ -11,6 +11,14 @@
         { id: 3, text: "True or False" }
     ];
 
+    self.displayUrl = function () {
+        if (isPhonegap()) {
+            var path = dirImg.fullPath + self.card().imageUrl;
+            alert(path);
+            return path;
+        }
+    }
+
     self.addAnswer = function () {
         var answer = new Answer(self.card().multipleAnswers().length + 1, self.card().id(), null, false, 2);
         self.card().multipleAnswers.push(answer);
@@ -72,62 +80,64 @@ function uploadImage(file) {
     var type = file.type.toLowerCase(); 
     if (type != 'image/png' && type != 'image/jpg' && !type != 'image/gif' && type != 'image/jpeg')
         alert("File doesnt match png, jpg or gif");
-
-    else if (isPhonegap()) {
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) {
-            gotFS(fs, file, file.type);
-        }, errorHandler);
-    }
+    if (file.name.length < 1)
+        alert("No file name specified.");
+    //    else if (file.size > 300000)
+    //        alert("File is to big");
     else {
-        if (file.name.length < 1)
-            alert("No file name specified.");
-        //    else if (file.size > 300000)
-        //        alert("File is to big");
-        else {
-            var reader = new FileReader();
-            //reader.readAsBinaryString(file);
-            //reader.readAsText(file);
-            reader.readAsDataURL(file);
-            reader.onloadend = function (event) {
-                console.log(reader.result);
-                // shrink image
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var img = document.createElement('img');
-                img.src = reader.result;
-                img.onload = function () {
-                    console.log("image loaded");
-                    var newWidth = viewport.width * .7;
-                    var newHeight = img.height / img.width * newWidth;
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
-                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
-                    var shrunkImg = canvas.toDataURL('image/jpeg');
-                    var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
-                    setTimeout(function () {
-                        var data = Base64Binary.decode(imgData64);
-                        var str = "";
-                        for (var i = 0, l = data.length; i < l; i++)
-                            str += String.fromCharCode(data[i]);
-                        console.log(str);
-                        // to Base64
-                        b64 = btoa(str); // "/zjJCA=="
-                        console.log(b64);
-                        var imgData = ctx.getImageData(10, 10, 50, 50); console.log(imgData);
-                    }, 0);
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function (event) {
+            // shrink image
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var img = document.createElement('img');
+            img.src = reader.result;
 
-                    // save image data to the phone storage
-
-                    // Save the image path to the database (on web, should upload the entire image)
-                    editCardView.card().UpdateImagePath(file.name);
-
-                    // Display the image
-                    $("#imgDisplay").attr({ "src": shrunkImg });
-                }
-
-                if (event.target.error)
-                    errorHandler(event.target.error);
+            img.onload = function () {
+                var newWidth = viewport.width * .7;
+                var newHeight = img.height / img.width * newWidth;
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
+                var shrunkImg = canvas.toDataURL('image/jpeg');
+                // Display the image
+                $("#imgDisplay").attr({ "src": shrunkImg });
             }
+            if (event.target.error)
+                errorHandler(event.target.error);
+        }
+
+        var imageName = GenerateGuid();
+        if (isPhonegap()) imageName += ".png";
+        else imageName += getFileEnding(file.type); 
+
+        // Save the image path to the database (on web, should upload the entire image)
+        editCardView.card().UpdateImagePath(imageName);
+
+        if (isPhonegap()) {
+            // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);    
+            window.canvas2ImagePlugin.saveImageDataToLibrary(
+                function (filePath) {
+                    alert(filePath);
+                    dirRoot.getFile(filePath, { create: true, exclusive: false },
+                        function (fe) {
+                            alert(fe.fullPath);
+                            fe.moveTo(dirImg, imageName,
+                                function (msg) {
+                                    // Save the image path to the database
+                                    editCardView.card().UpdateImagePath(imageName);
+                                }
+                                , function (e) { alert("Failed to move image. \n" + error.code); }
+                            );
+                        }
+                        , errorHandler2);
+                },
+                function (err) {
+                    alert("Failed saving image to card. \n" + err);
+                },
+                canvas
+            );
         }
     }
 }
@@ -166,25 +176,35 @@ function gotFileEntry(fe, file, type) {
         var ctx = canvas.getContext('2d');
         var img = document.createElement('img');
         img.src = reader.result;
+
         img.onload = function () {
+            
             var newWidth = $(".page").width() * .8;
             var newHeight = img.height / img.width * newWidth;
             canvas.width = newWidth;
             canvas.height = newHeight;
             ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
+            
+            var imageName = GenerateGuid() + ".png";
 
-            var resultFile = window.canvas2ImagePlugin.saveImageDataToLibrary(
+            window.canvas2ImagePlugin.saveImageDataToLibrary(
                 function (filePath) {
                     alert(filePath);
                     dirRoot.getFile(filePath, { create: true, exclusive: false },
                         function (fe2) {
                             alert(fe2.fullPath);
-                            fe2.moveTo(dirImg, "moved.png", function (msg) { alert("success: " + msg); }, function(e) {alert(error.code);});
+                            fe2.moveTo(dirImg, imageName, 
+                                function (msg) {
+                                    // Save the image path to the database
+                                    editCardView.card().UpdateImagePath(imageName);
+                                }
+                                , function (e) { alert("Failed to move image. \n" + error.code); }
+                            );
                         }
                         , errorHandler2);
                 },
                 function (err) {
-                    alert(err);
+                    alert("Failed saving image to card. \n" + err);
                 },
                 canvas
             );
@@ -195,35 +215,35 @@ function gotFileEntry(fe, file, type) {
                 var shrunkImg = canvasToData(type, canvas); //canvas.toDataURL('image/jpeg');
 
                 // save image data to the phone storage
-//                var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
-//                setTimeout(function () {
-//                    //dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
-//                    //dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
-//                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
-//                }, 0);
+                //                var imgData64 = canvas.toDataURL("image/png").replace(/data:image\/png;base64,/, ''); //canvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream");                
+                //                setTimeout(function () {
+                //                    //dirImg.getFile("test.png", { create: true, exclusive: false }, function (f) { getWin(imgData64, f); }, getFail);
+                //                    //dirImg.getFile("test4.png", { create: true, exclusive: false }, function (f) { getWin2(imgData64, f); }, getFail);
+                //                    //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(shrunkImg, f); }, getFail);
+                //                }, 0);
 
-//                setTimeout(function () {
-//                    var data = Base64Binary.decode(imgData64);
-//                    var str = "";
-//                    for (var i = 0, l = data.length; i < l; i++)
-//                        str += String.fromCharCode(data[i]);
-//                    //var data = Base64Binary.decode(shrunkImg);
-//                    //var str = String.fromCharCode.apply(null, data); // "ÿ8É"
-//                    //console.log(str);
-//                    // to Base64
-//                    var b64 = btoa(str); // "/zjJCA=="
-//                    console.log(b64);
-//                    setTimeout(function () {
-//                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin2(str, f); }, getFail);
-//                        dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(b64, f); }, getFail);
-//                        //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
-//                    }, 0);
-//                }, 0);
+                //                setTimeout(function () {
+                //                    var data = Base64Binary.decode(imgData64);
+                //                    var str = "";
+                //                    for (var i = 0, l = data.length; i < l; i++)
+                //                        str += String.fromCharCode(data[i]);
+                //                    //var data = Base64Binary.decode(shrunkImg);
+                //                    //var str = String.fromCharCode.apply(null, data); // "ÿ8É"
+                //                    //console.log(str);
+                //                    // to Base64
+                //                    var b64 = btoa(str); // "/zjJCA=="
+                //                    console.log(b64);
+                //                    setTimeout(function () {
+                //                        dirImg.getFile("test2.png", { create: true, exclusive: false }, function (f) { getWin2(str, f); }, getFail);
+                //                        dirImg.getFile("test3.png", { create: true, exclusive: false }, function (f) { getWin2(b64, f); }, getFail);
+                //                        //dirImg.getFile(file.name, { create: true, exclusive: false }, function (f) { getWin(imgData, f); }, getFail);
+                //                    }, 0);
+                //                }, 0);
                 //var uintArray = Base64Binary.decode(data);
                 //fe.createWriter(gotFileWriter, function (error) { alert("CreateWriter failed: " + error.code); });
 
                 // Save the image path to the database
-                editCardView.card().UpdateImagePath("moved.png");//fe.fullPath);
+                //editCardView.card().UpdateImagePathimageName); //fe.fullPath);
 
                 // Display the image
                 $("#imgDisplay").attr({ "src": shrunkImg });
