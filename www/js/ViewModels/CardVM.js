@@ -12,11 +12,7 @@
     ];
 
     self.displayUrl = function () {
-        if (isPhonegap()) {
-            var path = dirImg.fullPath + self.card().imageUrl;
-            alert(path);
-            return path;
-        }
+        if (isPhonegap()) return dirImg.fullPath + "/" + self.card().imageUrl;        
         else return self.card().imageUrl
     }
 
