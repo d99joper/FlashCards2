@@ -12,7 +12,7 @@
     ];
 
     self.displayUrl = function () {
-        if (isPhonegap()) return dirImg.fullPath + "/" + self.card().imageUrl;        
+        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent)) return dirImg.fullPath + "/" + self.card().imageUrl;        
         else return self.card().imageUrl
     }
 
