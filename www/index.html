@@ -145,13 +145,31 @@
             
                 <h4>Image</h4>
                 <!-- ko if: isPhonegap() -->
-                    <button onclick="capturePhoto();">Capture Photo</button> <br>
-                    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-                    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-                    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-                    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-                    <img style="display:none;" id="largeImage" src="" />
-                    <input type="button" id="btnUpload" class="btn btn-info" data-bind="event: { click: function() { $root.uploadPhonegapImage; } }">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#imageSelectModal">Upload image</button>
+                    <div class="modal fade" id="imageSelectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Select image source</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        <button class="btn btn-lg btn-danger btn-block" data-bind="click: function() {captureImage('camera');}">
+                                            <span class="glyphicon glyphicon-camera"></span>
+                                            Camera
+                                        </button>
+                                    </p>
+                                    <p>
+                                        <button class="btn btn-lg btn-success btn-block" data-bind="click: function() {captureImage('gallery');}">
+                                            <span class="glyphicon glyphicon-th-large"></span>
+                                            Gallery
+                                        </button>
+                                    </p>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
                 <!-- /ko -->
                 <!-- ko ifnot: isPhonegap() -->
                     <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">

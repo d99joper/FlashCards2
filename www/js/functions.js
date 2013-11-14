@@ -122,13 +122,12 @@ function onDeviceReady() {
 
 function onRequestFileSystemSuccess(fileSystem) {
     dirRoot = fileSystem.root;
-    alert(pictureSource.PHOTOLIBRARY + "/FlashCards");
-    dirRoot.getDirectory(pictureSource.PHOTOLIBRARY + "/FlashCards", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
+    dirRoot.getDirectory("/FlashCards/images", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
 }
 
 function onGetDirectorySuccess(dir) {
     dirImg = dir;
-    alert("Created dir " + dir.name);
+    console.log("Created dir " + dir.name);
 }
 
 function onGetDirectoryFail(error) {
