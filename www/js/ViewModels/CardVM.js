@@ -91,10 +91,10 @@ function onPhotoDataSuccess(imageData) {
     
     // Get image handle
     var img = document.getElementById('imgDisplay');
-    
+    alert("before img src");
     // Show the captured photo
     img.src = "data:image/jpeg;base64," + imageData;
-
+    alert("after img src");
     var imageName = GenerateGuid() + ".png";
 
     img.onload = onImageLoad(img, imageName);
@@ -133,6 +133,7 @@ function onImageLoad(oImage, imageName) {
     var ctx = canvas.getContext('2d');
     canvas.width = newWidth;
     canvas.height = newHeight;
+    alert("draw");
     ctx.drawImage(oImage, 0, 0, oImage.width, oImage.height, 0, 0, newWidth, newHeight);
     var shrunkImg = canvas.toDataURL('image/jpeg');
     // Display the image
