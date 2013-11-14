@@ -122,7 +122,7 @@ function onDeviceReady() {
 
 function onRequestFileSystemSuccess(fileSystem) {
     dirRoot = fileSystem.root;
-    dirRoot.getDirectory("/FlashCards/images", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
+    dirRoot.getDirectory("FlashCards/images", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
 }
 
 function onGetDirectorySuccess(dir) {
