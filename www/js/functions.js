@@ -127,11 +127,11 @@ function onRequestFileSystemSuccess(fileSystem) {
 
 function onGetDirectorySuccess(dir) {
     dirImg = dir;
-    console.log("Created dir " + dir.name);
+    alert("Created dir " + dir.name);
 }
 
 function onGetDirectoryFail(error) {
-    console.log("Error creating directory " + error.code);
+    alert("Error creating directory " + error.code);
 } 
 
 // Handle the menu button
