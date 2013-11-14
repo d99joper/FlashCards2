@@ -10,6 +10,9 @@ var pDeck = new RegExp("^#deck/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[
 var pHome = new RegExp("^#home$", ["i"]);
 var pStats = new RegExp("^#stats$", ["i"]);
 
+var pictureSource;   // picture source
+var destinationType; // sets the format of returned value
+
 var dirRoot;  // Phone root directory
 var dirImg; // Image directory for the phones
 
@@ -49,8 +52,6 @@ var client_creds = {
 }
 //Initializes the ApiGee SDK. Also instantiates Apigee.MonitoringClient
 var apiGeeClient = new Apigee.Client(client_creds);
-
-
 
 $(document).ready(function () {
     console.log(viewport.width);
@@ -112,13 +113,16 @@ function onDeviceReady() {
 	document.addEventListener("menubutton", onMenuKeyDown, false);
 	document.addEventListener("backbutton", onBackKeyDown, false);
 
+	pictureSource = navigator.camera.PictureSourceType;
+	destinationType = navigator.camera.DestinationType;
+
 	// Create a directory, if it doesn't exist
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
 }
 
 function onRequestFileSystemSuccess(fileSystem) {
     dirRoot = fileSystem.root;
-    dirRoot.getDirectory("FlashCards", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
+    dirRoot.getDirectory(pictureSource.PHOTOLIBRARY + "/FlashCards", { create: true, exclusive: false }, onGetDirectorySuccess, onGetDirectoryFail);
 }
 
 function onGetDirectorySuccess(dir) {

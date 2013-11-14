@@ -22,9 +22,10 @@
   <preference name="phonegap-version" value="3.0.0" />
 
   <gap:plugin name="org.devgeeks.canvas2imageplugin" />
+  <gap:plugin name="org.apache.cordova.camera" />
+  <gap:plugin name="org.apache.cordova.dialogs" />
   <gap:plugin name="org.apache.cordova.file" />
   <gap:plugin name="org.apache.cordova.file-transfer" />
-  <gap:plugin name="org.apache.cordova.dialogs" />
   <gap:plugin name="org.apache.cordova.vibration" />
   
   <!--<feature name="http://api.phonegap.com/1.0/camera"/>
