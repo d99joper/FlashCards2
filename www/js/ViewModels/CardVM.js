@@ -82,7 +82,7 @@ function captureImage(source) {
 
     var options = { quality: 49, destinationType: destinationType.DATA_URL, sourceType: source, encodingType: Camera.EncodingType.PNG, saveToPhotoAlbum: false };
 
-    navigator.camera.getPicture(onPhotoDataSuccess, onFail, [options]);
+    navigator.camera.getPicture(onPhotoDataSuccess, onFail, options);
 }
 
 // Called when a photo is successfully retrieved
