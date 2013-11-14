@@ -91,13 +91,15 @@ function onPhotoDataSuccess(imageData) {
     
     // Get image handle
     var img = document.getElementById('imgDisplay');
-    alert("before img src");
+
     // Show the captured photo
-    img.src = "data:image/jpeg;base64," + imageData;
-    alert("after img src");
+    img.src = "data:image/png;base64," + imageData;
+
     var imageName = GenerateGuid() + ".png";
 
     img.onload = onImageLoad(img, imageName);
+
+    $('#myModalLabel').modal('hide');
 }
 
 function uploadImage(file) {
@@ -133,15 +135,15 @@ function onImageLoad(oImage, imageName) {
     var ctx = canvas.getContext('2d');
     canvas.width = newWidth;
     canvas.height = newHeight;
-    alert("draw");
     ctx.drawImage(oImage, 0, 0, oImage.width, oImage.height, 0, 0, newWidth, newHeight);
-    var shrunkImg = canvas.toDataURL('image/jpeg');
+    var shrunkImg = canvas.toDataURL();
+    alert("after draw");
     // Display the image
     $("#imgDisplay").attr({ "src": shrunkImg });
-
+    alert("after set src");
     // Save the image path to the database (on web, should upload the entire image)
     editCardView.card().UpdateImagePath(imageName);
-
+    alert("after save");
     if (isPhonegap()) {
         // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);    
         window.canvas2ImagePlugin.saveImageDataToLibrary(
@@ -163,6 +165,7 @@ function onImageLoad(oImage, imageName) {
             canvas
         );
     }
+    alert("done?");
 }
 
 function getFileEnding(type) {
