@@ -18,6 +18,7 @@
     self.id.subscribe(function (newValue) { $("#imgDisplay").attr({ "src": self.imageUrl }); $("#imgUpload").val(self.imageUrl) });
 
     self.UpdateImagePath = function (path) {
+        alert(path);
         self.imageUrl = path;
         self.Save();
     };
