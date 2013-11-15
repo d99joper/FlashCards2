@@ -96,8 +96,8 @@ $(document).ready(function () {
     });
 
     // vibrate when a button is pressed 
-    $(".btn").click(function () { if (isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
-    $("a").click(function () { if (isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
+    $(".btn").click(function () { if (IsPhonegap()) navigator.notification.vibrate(vibrationTime1); });
+    $("a").click(function () { if (IsPhonegap()) navigator.notification.vibrate(vibrationTime1); });
 
     // Initiate the PhoneGap onDeviceReady event
     if (IsPhonegap())
