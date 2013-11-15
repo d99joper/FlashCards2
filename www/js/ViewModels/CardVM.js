@@ -88,13 +88,13 @@ function captureImage(source) {
 // Called when a photo is successfully retrieved
 //
 function onPhotoDataSuccess(imageData) {
-
+    alert(imageData);
     var img = document.createElement('img');
     img.src = "data:image/jpeg;base64," + imageData;
 
     var imageName = GenerateGuid() + ".png";
 
-    img.onload = onImageLoad(img, imageName);
+    img.onload = function () { onImageLoad(img, imageName) };
 
     $('#myModalLabel').modal('hide');
 }
