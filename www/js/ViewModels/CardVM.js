@@ -141,13 +141,10 @@ function onImageLoad(oImage, imageName, isPhonegap) {
     // Save the image path to the database (on web, should upload the entire image)
     editCardView.card().UpdateImagePath(imageName);
     if (isPhonegap) {        
-        alert("canvas2Image");
         window.canvas2ImagePlugin.saveImageDataToLibrary(
             function (filePath) {
-                alert(filePath);
                 dirRoot.getFile(filePath, { create: true, exclusive: false },
                     function (fe) {
-                        alert(fe.fullPath);
                         fe.moveTo(dirImg, imageName,
                             function (msg) { }
                             , function (e) { alert("Failed to move image. \n" + error.code); }
