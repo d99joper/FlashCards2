@@ -80,7 +80,8 @@ function captureImage(source) {
     else
         source = pictureSource.PHOTOLIBRARY;
 
-    var options = { quality: 49, destinationType: destinationType.DATA_URL, sourceType: source, encodingType: Camera.EncodingType.PNG, saveToPhotoAlbum: false };
+    var options = { quality: 75, destinationType: destinationType.DATA_URL, targetWidth: 500, targetHeight: 500, sourceType: source, encodingType: Camera.EncodingType.PNG, correctOrientation: true, saveToPhotoAlbum: false
+    };
 
     navigator.camera.getPicture(onPhotoDataSuccess, onFail, options);
 }
