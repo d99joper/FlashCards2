@@ -134,14 +134,14 @@ function onImageLoad(oImage, imageName) {
     canvas.height = newHeight;
     ctx.drawImage(oImage, 0, 0, oImage.width, oImage.height, 0, 0, newWidth, newHeight);
     var shrunkImg = canvas.toDataURL('image/png');
-    alert(imageName);
+    
     // Display the image
     $("#imgDisplay").attr({ "src": shrunkImg });
 
     // Save the image path to the database (on web, should upload the entire image)
     editCardView.card().UpdateImagePath(imageName);
-    alert("updated image path");
-    if (isPhonegap()) {
+    
+    if (IsPhonegap()) {
         // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);
         alert("canvas2Image");
         window.canvas2ImagePlugin.saveImageDataToLibrary(

@@ -19,19 +19,18 @@
 
     self.UpdateImagePath = function (path) {
         self.imageUrl = path;
-        alert("ready to save");
         self.Save();
     };
 
     self.Save = function () {
-        alert("hello");
+
         db.transaction(function (t) {
             t.executeSql("UPDATE Card SET Question = ?, TypeId = ?, ImageUrl = ? WHERE CardId = ? and DeckId = ?"
             , [self.question(), self.typeId(), self.imageUrl, self.id(), self.deckId]
             , []
             , errorHandler);
         });
-        alert("hello2");
+    
         return false;
     };
 

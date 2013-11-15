@@ -39,7 +39,7 @@ function GenerateGuid() {
 			s4() + '-' + s4() + s4() + s4();
 }
 
-function isPhonegap() {
+function IsPhonegap() {
     return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent);
     //return navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
 }
@@ -100,7 +100,7 @@ $(document).ready(function () {
     $("a").click(function () { if (isPhonegap()) navigator.notification.vibrate(vibrationTime1); });
 
     // Initiate the PhoneGap onDeviceReady event
-    if (isPhonegap())
+    if (IsPhonegap())
         document.addEventListener("deviceready", onDeviceReady, false);
     else
         console.log("this is the browser");
