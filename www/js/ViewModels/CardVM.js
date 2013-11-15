@@ -140,9 +140,8 @@ function onImageLoad(oImage, imageName, isPhonegap) {
 
     // Save the image path to the database (on web, should upload the entire image)
     editCardView.card().UpdateImagePath(imageName);
-
-    if (isPhonegap) {
-        // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);
+    alert(isPhonegap);
+    if (isPhonegap) {        
         alert("canvas2Image");
         window.canvas2ImagePlugin.saveImageDataToLibrary(
             function (filePath) {
@@ -163,6 +162,7 @@ function onImageLoad(oImage, imageName, isPhonegap) {
             canvas
         );
     }
+    alert("done?");
 }
 
 function getFileEnding(type) {
