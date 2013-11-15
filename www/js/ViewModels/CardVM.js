@@ -88,7 +88,7 @@ function captureImage(source) {
 // Called when a photo is successfully retrieved
 //
 function onPhotoDataSuccess(imageData) {
-    alert(imageData);
+    
     var img = document.createElement('img');
     img.src = "data:image/jpeg;base64," + imageData;
 
@@ -134,13 +134,13 @@ function onImageLoad(oImage, imageName) {
     canvas.height = newHeight;
     ctx.drawImage(oImage, 0, 0, oImage.width, oImage.height, 0, 0, newWidth, newHeight);
     var shrunkImg = canvas.toDataURL('image/png');
-    alert(shrunkImg);
+    alert(imageName);
     // Display the image
     $("#imgDisplay").attr({ "src": shrunkImg });
 
     // Save the image path to the database (on web, should upload the entire image)
     editCardView.card().UpdateImagePath(imageName);
-
+    alert("updated image path");
     if (isPhonegap()) {
         // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);
         alert("canvas2Image");
