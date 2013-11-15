@@ -94,9 +94,9 @@ function onPhotoDataSuccess(imageData) {
 
     var imageName = GenerateGuid() + ".png";
 
-    img.onload = function () { onImageLoad(img, imageName) };
+    img.onload = function () { onImageLoad(img, imageName, true) };
 
-    $('#myModalLabel').modal('hide');
+    $('#imageSelectModal').modal('hide');
 }
 
 function uploadImage(file) {
@@ -117,7 +117,7 @@ function uploadImage(file) {
             var img = document.createElement('img');
             img.src = reader.result;
 
-            img.onload = onImageLoad(img, imageName);
+            img.onload = onImageLoad(img, imageName, false);
 
             if (event.target.error)
                 errorHandler(event.target.error);
@@ -125,7 +125,7 @@ function uploadImage(file) {
     }
 }
 
-function onImageLoad(oImage, imageName) {
+function onImageLoad(oImage, imageName, isPhonegap) {
     var newWidth = viewport.width * .7;
     var newHeight = oImage.height / oImage.width * newWidth;
     var canvas = document.createElement('canvas');
@@ -140,9 +140,8 @@ function onImageLoad(oImage, imageName) {
 
     // Save the image path to the database (on web, should upload the entire image)
     editCardView.card().UpdateImagePath(imageName);
-    alert(editCardView.isPhonegap());
-    alert(IsPhonegap());
-    if (IsPhonegap() || editCardView.isPhonegap()) {
+
+    if (isPhonegap) {
         // window.requestFileSystem(LocalFileSystem.PERSISTENT, file.size, function (fs) { gotFS(fs, file, file.type); }, errorHandler);
         alert("canvas2Image");
         window.canvas2ImagePlugin.saveImageDataToLibrary(
