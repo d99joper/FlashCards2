@@ -12,11 +12,13 @@
     ];
 
     self.displayUrl = function () {
-        if (self.isPhonegap()) DisplayImagePhonegap(self.card().imageUrl);        
-        else return self.card().imageUrl
-    }
+        if (self.isPhonegap()) { DisplayImagePhonegap(self.card().imageUrl); }
+        else return self.card().imageUrl;
+    };
 
-    self.isPhonegap = function () { return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent); }
+    self.isPhonegap = function () {
+        return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent); 
+    };
 
     self.addAnswer = function () {
         var answer = new Answer(self.card().multipleAnswers().length + 1, self.card().id(), null, false, 2);
@@ -27,14 +29,14 @@
     self.saveAnswer = function (answer) {
         console.log(answer.isCorrect());
         answer.Save();
-    }
+    };
 
     self.removeAnswer = function (answer) {
         if (confirm("Are you sure you want to delete the answer?")) {
             self.card().multipleAnswers.remove(answer);
             answer.Delete();
         }
-    }
+    };
 
     self.newCard = function () {
         var validation = self.card().Validate();
@@ -75,10 +77,13 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element);
 
 function DisplayImagePhonegap(url) {
+    alert(url);
     dirImage.getFile(url, { create: true, exclusive: false }, function (fe) {
         fe.file(function (file) {
+            alert(file.fullPath);
             reader = new FileReader();
             reader.onloadend = function (evt) {
+                alert("onfileend");
                 $("#imgDisplay").attr({ "src": reader.result });
             };
             reader.readAsDataURL(file);
