@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "personablesolutions.mobile.flashcards"
         versionCode = "1"
-        version     = "0.2.1">
+        version     = "0.3.0">
 
   <name>Flash Card Application</name>
 
@@ -19,7 +19,8 @@
   <icon src="img/lightning-icon.png" width="48" height="48" />
   <icon src="img/lightning-icon.png" width="36" height="36" />
 
-  <preference name="phonegap-version" value="3.0.0" />
+  <preference name="phonegap-version" value="3.1.0" />
+  <preference name="orientation" value="portrait" />
 
   <gap:plugin name="org.devgeeks.canvas2imageplugin" />
   <gap:plugin name="org.apache.cordova.camera" />
