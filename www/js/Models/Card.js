@@ -17,7 +17,7 @@
     self.question.subscribe(function (newValue) { self.Save(); });
     self.id.subscribe(function (newValue) {
         var url = "";
-        if (IsPhonegap()) { alert("IsPhonegap for card url subscription."); url = dirImg.fullPath + "/"; }
+        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent)) { alert("IsPhonegap for card url subscription."); url = dirImg.fullPath + "/"; }
         $("#imgDisplay").attr({ "src": url + self.imageUrl });
     });
 
