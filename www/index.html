@@ -170,7 +170,7 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
-                    <img id="imgDisplay" data-bind="attr: {src: $root.displayPhoneUrl()}" />
+                    <img id="imgDisplay" data-bind="attr: {src: $root.displayPhoneUrl}" />
                 <!-- /ko -->
                 <!-- ko ifnot: isPhonegap() -->
                     <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">
