@@ -11,19 +11,19 @@
         { id: 3, text: "True or False" }
     ];
 
-    self.displayPhoneUrl = function () {
-        alert(dirImg);
+    self.displayPhoneUrl = function (dirImage) {
+        alert(dirImage);
         alert(self.card().imageUrl);
-        alert(dirImg.fullPath);
-        //        alert(dirImg.fullPath + "/" + self.card().imageUrl);
+        alert(dirImage.fullPath);
+        return dirImage.fullPath + "/" + self.card().imageUrl;
         //        $("#imgDisplay").attr({ "src": self.card().imageUrl });
         DisplayImagePhonegap(self.card().imageUrl); 
     };
-    self.displayUrl = function () { return self.card().imageUrl; };
+    self.displayUrl = ko.computed(function () { return self.card().imageUrl; }, this);
 
-    self.isPhonegap = function () {
-        return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent); 
-    };
+    self.isPhonegap = ko.computed(function () {
+        return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent);
+    }, this); 
 
     self.addAnswer = function () {
         var answer = new Answer(self.card().multipleAnswers().length + 1, self.card().id(), null, false, 2);
