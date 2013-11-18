@@ -11,14 +11,12 @@
         { id: 3, text: "True or False" }
     ];
 
-    self.displayUrl = function () {
-        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent)) {
-            alert(dirImage.fullPath + "/" + self.card().imageUrl);
-            $("#imgDisplay").attr({ "src": self.card().imageUrl });
-            //DisplayImagePhonegap(self.card().imageUrl); 
-        }
-        else return self.card().imageUrl;
+    self.displayPhoneUrl = function () {
+        alert(dirImage.fullPath + "/" + self.card().imageUrl);
+        $("#imgDisplay").attr({ "src": self.card().imageUrl });
+        //DisplayImagePhonegap(self.card().imageUrl); 
     };
+    self.displayUrl = function () { return self.card().imageUrl; };
 
     self.isPhonegap = function () {
         return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent); 
