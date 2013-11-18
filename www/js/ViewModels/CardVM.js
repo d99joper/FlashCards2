@@ -12,7 +12,7 @@
     ];
 
     self.displayPhoneUrl = function () {
-        alert(dirImage.fullPath + "/" + self.card().imageUrl);
+        alert(dirImg.fullPath + "/" + self.card().imageUrl);
         $("#imgDisplay").attr({ "src": self.card().imageUrl });
         //DisplayImagePhonegap(self.card().imageUrl); 
     };
