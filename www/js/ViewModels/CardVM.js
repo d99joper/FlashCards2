@@ -12,7 +12,11 @@
     ];
 
     self.displayUrl = function () {
-        if (self.isPhonegap()) { DisplayImagePhonegap(self.card().imageUrl); }
+        if (self.isPhonegap()) {
+            alert(dirImage.fullPath + "/" + self.card().imageUrl);
+            $("#imgDisplay").attr({ "src": self.card().imageUrl });
+            //DisplayImagePhonegap(self.card().imageUrl); 
+        }
         else return self.card().imageUrl;
     };
 
