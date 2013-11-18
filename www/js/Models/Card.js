@@ -15,7 +15,11 @@
 
     self.typeId.subscribe(function (newValue) { self.Save(); });
     self.question.subscribe(function (newValue) { self.Save(); });
-    self.id.subscribe(function (newValue) { $("#imgDisplay").attr({ "src": self.imageUrl }); $("#imgUpload").val(self.imageUrl) });
+    self.id.subscribe(function (newValue) {
+        var url = "";
+        if (IsPhonegap()) { alert("IsPhonegap for card url subscription."); url = dirImg.fullPath + "/"; }
+        $("#imgDisplay").attr({ "src": url + self.imageUrl });
+    });
 
     self.UpdateImagePath = function (path) {
         self.imageUrl = path;

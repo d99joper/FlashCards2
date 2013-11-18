@@ -11,15 +11,15 @@
         { id: 3, text: "True or False" }
     ];
 
-        self.displayPhoneUrl = ko.computed(function (dirImage) {
-            alert(dirImage);
-            alert(self.card().imageUrl);
-            alert(dirImage.fullPath);
-            return dirImage.fullPath + "/" + self.card().imageUrl;
-            //        $("#imgDisplay").attr({ "src": self.card().imageUrl });
-            DisplayImagePhonegap(self.card().imageUrl);
-        }, this);
-    self.displayUrl = ko.computed(function () { return self.card().imageUrl; }, this);
+//    self.displayPhoneUrl = ko.computed(function (dirImage) {
+//        alert(dirImage);
+//        alert(self.card().imageUrl);
+//        alert(dirImage.fullPath);
+//        return dirImage.fullPath + "/" + self.card().imageUrl;
+//        //        $("#imgDisplay").attr({ "src": self.card().imageUrl });
+//        DisplayImagePhonegap(self.card().imageUrl);
+//    }, this);
+//    self.displayUrl = ko.computed(function () { return self.card().imageUrl; }, this);
 
     self.isPhonegap = ko.computed(function () {
         return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent);

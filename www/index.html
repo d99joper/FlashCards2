@@ -170,12 +170,11 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
-                    <img id="imgDisplay" data-bind="attr: {src: $root.displayPhoneUrl(dirImg)}" />
                 <!-- /ko -->
                 <!-- ko ifnot: isPhonegap() -->
                     <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">
-                    <img id="imgDisplay" data-bind="attr: {src: $root.displayUrl()}" />
                 <!-- /ko -->
+                <img id="imgDisplay" />
             
                 <h4>Type</h4>
                 <select id="ddlAnswerType" class="btn btn-default" data-bind="value: card().typeId">
