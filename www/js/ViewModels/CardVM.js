@@ -12,8 +12,8 @@
     ];
 
     self.displayPhoneUrl = function () {
-        alert(dirImg.fullPath + "/" + self.card().imageUrl);
-        $("#imgDisplay").attr({ "src": self.card().imageUrl });
+//        alert(dirImg.fullPath + "/" + self.card().imageUrl);
+//        $("#imgDisplay").attr({ "src": self.card().imageUrl });
         //DisplayImagePhonegap(self.card().imageUrl); 
     };
     self.displayUrl = function () { return self.card().imageUrl; };
@@ -80,7 +80,7 @@ ko.applyBindings(editCardView, element);
 
 function DisplayImagePhonegap(url) {
     alert(url);
-    dirImage.getFile(url, { create: true, exclusive: false }, function (fe) {
+    dirImg.getFile(url, { create: true, exclusive: false }, function (fe) {
         fe.file(function (file) {
             alert(file.fullPath);
             reader = new FileReader();
