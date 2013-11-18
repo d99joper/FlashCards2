@@ -11,11 +11,14 @@
         { id: 3, text: "True or False" }
     ];
 
-    self.displayPhoneUrl = function () {
-//        alert(dirImg.fullPath + "/" + self.card().imageUrl);
-//        $("#imgDisplay").attr({ "src": self.card().imageUrl });
-        //DisplayImagePhonegap(self.card().imageUrl); 
-    };
+        self.displayPhoneUrl = function () {
+            alert(dirImg);
+            alert(self.card().imageUrl);
+            alert(dirImg.fullPath);
+            //        alert(dirImg.fullPath + "/" + self.card().imageUrl);
+            //        $("#imgDisplay").attr({ "src": self.card().imageUrl });
+            //DisplayImagePhonegap(self.card().imageUrl); 
+        };
     self.displayUrl = function () { return self.card().imageUrl; };
 
     self.isPhonegap = function () {
