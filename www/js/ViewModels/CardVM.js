@@ -12,7 +12,7 @@
     ];
 
     self.displayUrl = function () {
-        if (self.isPhonegap()) {
+        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent)) {
             alert(dirImage.fullPath + "/" + self.card().imageUrl);
             $("#imgDisplay").attr({ "src": self.card().imageUrl });
             //DisplayImagePhonegap(self.card().imageUrl); 
