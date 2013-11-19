@@ -82,7 +82,6 @@ var editCardView = new EditCardViewModel(null, null, null, null, null, null, nul
 ko.applyBindings(editCardView, element);
 
 function DisplayImagePhonegap(url) {
-    alert(url);
     dirImg.getFile(url, { create: true, exclusive: false }, function (fe) {
         fe.file(function (file) {
             alert(file.fullPath);
@@ -184,7 +183,11 @@ function onImageLoad(oImage, imageName, isPhonegap) {
         );
     }
     editCardView.card().UpdateImagePath(imageUrl);
-    setTimeout(editCardView.card().imageUrl(imageUrl), 0);
+    setTimeout(function () {
+        alert(editCardView.card().imageUrl());
+        editCardView.card().imageUrl(imageUrl);
+        alert(editCardView.card().imageUrl());
+    }, 0);
 }
 
 function getFileEnding(type) {
