@@ -163,7 +163,7 @@ function onImageLoad(oImage, imageName, isPhonegap) {
 
     // Save the image path to the database (on web, should upload the entire image)
     if (isPhonegap)
-        editCardView.card().UpdateImagePath(dirImg + "/" + imageName);
+        editCardView.card().UpdateImagePath(dirImg.fullPath + "/" + imageName);
     else
         editCardView.card().UpdateImagePath(imageName);
     if (isPhonegap) {        
