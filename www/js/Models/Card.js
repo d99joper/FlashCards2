@@ -7,7 +7,13 @@
     self.id = ko.observable(id);
     self.deckId = deckid;
     self.question = ko.observable(question);
-    self.imageUrl = imageUrl;
+    self.imageUrl = ko.observable(imageUrl);
+//    self.imageUrl = ko.computed(function () {
+//        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent))
+//            return dirImg.fullPath + "/" + imageName;
+//        else
+//            return imageName
+//    });
     self.typeId = ko.observable(typeId);
     self.multipleAnswers = ko.observableArray(multipleAnswers);
     self.singleAnswer = ko.observable(singleAnswer);
@@ -15,14 +21,13 @@
 
     self.typeId.subscribe(function (newValue) { self.Save(); });
     self.question.subscribe(function (newValue) { self.Save(); });
-    self.id.subscribe(function (newValue) {
-        var url = "";
-        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent)) { alert("IsPhonegap for card url subscription."); url = dirImg.fullPath + "/"; }
-        $("#imgDisplay").attr({ "src": url + self.imageUrl });
-    });
+//    self.imageName.subscribe(function (newValue) {
+//        if (IsPhonegap())
+//            self.imageUrl(dirImg.fullPath + "/" + newValue);
+//    });
 
     self.UpdateImagePath = function (path) {
-        self.imageUrl = path;
+        self.imageUrl(path);
         self.Save();
     };
 
@@ -30,7 +35,7 @@
 
         db.transaction(function (t) {
             t.executeSql("UPDATE Card SET Question = ?, TypeId = ?, ImageUrl = ? WHERE CardId = ? and DeckId = ?"
-            , [self.question(), self.typeId(), self.imageUrl, self.id(), self.deckId]
+            , [self.question(), self.typeId(), self.imageUrl(), self.id(), self.deckId]
             , []
             , errorHandler);
         });
@@ -141,7 +146,7 @@ function AddCard(card, callback) {
     // Insert card
     db.transaction(function (t) {
         t.executeSql('INSERT INTO Card(CardId, DeckId, Question, ImageUrl, TypeId, Asked, CorrectlyAnswered) VALUES (?,?,?,?,?,0,0)'
-            , [card.id(), card.deckId, card.question(), card.imageUrl, card.typeId()]
+            , [card.id(), card.deckId, card.question(), card.imageUrl(), card.typeId()]
             , function (tx, rs) {
                 // Insert two initial answers
                 t.executeSql("INSERT INTO Answer(AnswerId, CardId, Text, IsCorrect, TypeId) VALUES(?,?,?,?,?)"

@@ -174,8 +174,11 @@
                 <!-- ko ifnot: isPhonegap() -->
                     <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">
                 <!-- /ko -->
-                <img id="imgDisplay" />
-            
+                <div>
+                    <span data-bind="text: card().imageUrl"></span>
+                    <img id="imgDisplay" data-bind="attr: {src: card().imageUrl}" />
+                </div>
+
                 <h4>Type</h4>
                 <select id="ddlAnswerType" class="btn btn-default" data-bind="value: card().typeId">
                     <option value="1">Text</option>

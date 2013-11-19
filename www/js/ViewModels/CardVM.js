@@ -162,7 +162,10 @@ function onImageLoad(oImage, imageName, isPhonegap) {
     $("#imgDisplay").attr({ "src": shrunkImg });
 
     // Save the image path to the database (on web, should upload the entire image)
-    editCardView.card().UpdateImagePath(imageName);
+    if (isPhonegap)
+        editCardView.card().UpdateImagePath(dirImg + "/" + imageName);
+    else
+        editCardView.card().UpdateImagePath(imageName);
     if (isPhonegap) {        
         window.canvas2ImagePlugin.saveImageDataToLibrary(
             function (filePath) {
