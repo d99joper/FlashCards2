@@ -159,14 +159,13 @@ function onImageLoad(oImage, imageName, isPhonegap) {
     var shrunkImg = canvas.toDataURL('image/png');
     
     // Display the image
-    $("#imgDisplay").attr({ "src": shrunkImg });
+    //$("#imgDisplay").attr({ "src": shrunkImg });
 
     // Save the image path to the database (on web, should upload the entire image)
-    if (isPhonegap)
-        editCardView.card().UpdateImagePath(dirImg.fullPath + "/" + imageName);
-    else
-        editCardView.card().UpdateImagePath(imageName);
-    if (isPhonegap) {        
+    var imageUrl = imageName;
+    if (isPhonegap) {
+        imageUrl = dirImg.fullPath + "/" + imageName;
+                    
         window.canvas2ImagePlugin.saveImageDataToLibrary(
             function (filePath) {
                 dirRoot.getFile(filePath, { create: true, exclusive: false },
@@ -184,6 +183,8 @@ function onImageLoad(oImage, imageName, isPhonegap) {
             canvas
         );
     }
+    editCardView.card().UpdateImagePath(imageUrl);
+    editCardView.card().imageUrl(imageUrl);
 }
 
 function getFileEnding(type) {
