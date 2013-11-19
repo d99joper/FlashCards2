@@ -183,11 +183,7 @@ function onImageLoad(oImage, imageName, isPhonegap) {
         );
     }
     editCardView.card().UpdateImagePath(imageUrl);
-    setTimeout(function () {
-        alert(editCardView.card().imageUrl());
-        editCardView.card().imageUrl(imageUrl);
-        alert(editCardView.card().imageUrl());
-    }, 0);
+    setTimeout(function () { editCardView.card().imageUrl(imageUrl); }, 0);
 }
 
 function getFileEnding(type) {
