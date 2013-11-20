@@ -8,12 +8,6 @@
     self.deckId = deckid;
     self.question = ko.observable(question);
     self.imageUrl = ko.observable(imageUrl);
-//    self.imageUrl = ko.computed(function () {
-//        if (/^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent))
-//            return dirImg.fullPath + "/" + imageName;
-//        else
-//            return imageName
-//    });
     self.typeId = ko.observable(typeId);
     self.multipleAnswers = ko.observableArray(multipleAnswers);
     self.singleAnswer = ko.observable(singleAnswer);
@@ -21,10 +15,6 @@
 
     self.typeId.subscribe(function (newValue) { self.Save(); });
     self.question.subscribe(function (newValue) { self.Save(); });
-//    self.imageName.subscribe(function (newValue) {
-//        if (IsPhonegap())
-//            self.imageUrl(dirImg.fullPath + "/" + newValue);
-//    });
 
     self.UpdateImagePath = function (path) {
         self.imageUrl(path);

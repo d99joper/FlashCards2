@@ -44,7 +44,6 @@
         
             <!-- Home -->
             <div id="home" class="page" style="display:none;">
-
                 <div class="input-group" style="padding-bottom: 0.4em">
                     <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
                     <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
@@ -254,9 +253,13 @@
                     </li>
                 </ul>
 
-                <h4>Some stats</h4>
+                <h4>Some numbers</h4>
                 <div>
-                    Here's some stats...
+                        <div class="well"><span data-bind="text: quizzes().length"></span> Quizzes taken</div>
+                        <div class="well"><span data-bind="text: stats().cardCount"></span> Questions answered</div>
+                        <div class="well">
+                            <span data-bind="text: stats().correctCount"></span> Correct answers (<span data-bind="text: stats().percentage"></span>%)
+                        </div>
                 </div>
             </div>
 
