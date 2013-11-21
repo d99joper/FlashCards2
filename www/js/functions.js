@@ -1,3 +1,6 @@
+// Data client for Apigee
+var dataClient;
+
 // The viewport
 var viewport = {
     width: $(window).width(),
@@ -50,12 +53,111 @@ var client_creds = {
     orgName: 'd99joper',
     appName: 'flashcards'
 }
-//Initializes the ApiGee SDK. Also instantiates Apigee.MonitoringClient
-var apiGeeClient = new Apigee.Client(client_creds);
+
+$(".showLogin").click(function () {
+    $("#divCreateUser").show(); 
+    $("#btnCreateUser").show();
+    $("#divUserAccountOptions").hide();
+});
+$("#aCreateAccount").click(function (e) {
+    $('#userLoginmodal').modal('show');
+    e.preventDefault();
+});
+$("#btnCreateUser").click(function () {
+    GetUser($("#txtEmail").val(), $("#txtName").val(), $("#txtPassword").val(), function (user) {
+        var options = { method: 'POST',
+            endpoint: 'users',
+            body: { username: user.email, name: user.name, email: user.email, password: user.password }
+        };
+
+        dataClient.request(options, function (error, response) {
+            if (error) {
+                console.log(error);
+                // Error
+            } else {
+                // Success
+                console.log(response);
+                dataClient.login(user.email, user.password,
+                    function (err) {
+                        if (err) {
+                            //error — could not log user in
+                            console.log("There was an error logging in " + user.name);
+                        } else {
+                            //success — user has been logged in
+                            var token = dataClient.token;
+                            localStorage["userName"] = user.name;
+                            localStorage["userEmail"] = user.email;
+                            localStorage["userPassword"] = user.password;
+                            $('#userLoginmodal').modal('hide');
+                             $('#divNoUser').hide();
+                             $("#divUserSettings").show();
+                        }
+                    }
+                );
+            }
+        });
+    });
+});
+
 
 $(document).ready(function () {
-    console.log(viewport.width);
-    console.log(viewport.height);
+
+    if (!localStorage["userName"]) {
+        $('#userLoginmodal').modal('show');
+        $('#divNoUser').show();
+    } else
+        $('#divUserSettings').show();
+
+    //Initializes the ApiGee SDK. Also instantiates Apigee.MonitoringClient
+    dataClient = new Apigee.Client(client_creds);
+
+    //alert(localStorage["userName"]);
+    //if (localStorage["userName"]) { localStorage.removeItem("userName");}
+    //else { localStorage["userName"] = "Jonas"; };
+
+//    GetUser('john.doe.2', 'john.doe.2', 'password', function (user) {
+//        console.log(user);
+//        // if user exists, get the token through apigee
+//        dataClient.login(user.email, user.password,
+//            function (err, response) {
+//                if (err) {
+//                    //error — could not log user in
+//                    console.log("There was an error logging in " + user.name);
+//                    console.log(response.error_description);
+//                    // Display modal with suggestion to log in.
+//                } else {
+//                    //success — user has been logged in
+//                    var token = dataClient.token;
+//                    console.log(token);
+//                }
+//            }
+//        );
+//    });
+    //options for the request
+    //    var options = {
+    //        method: 'POST',
+    //        endpoint: 'users',
+    //        body: { username: 'john.doe.2', name: 'John Doe', email: 'john.doe.2@gmail.com', password: 'password' }
+    //    };
+
+    //    var options = {
+    //        method: 'GET',
+    //        endpoint: 'users/me'
+    //    };
+    //    dataClient.request(options, function (error, response) {        
+    //        if (error) {
+    //            console.log(error);
+    //            // Error
+    //        } else {
+    //            // Success
+    //            console.log("success");
+    //            console.log(response);
+    //        }
+    //    });
+
+
+    //    console.log(viewport.width);
+    //    console.log(viewport.height);
     $("#ddlAnswerType").change(function () {
         if ($("#ddlAnswerType").val() == 1) {
             $("#divAnswerText").show();
@@ -75,8 +177,8 @@ $(document).ready(function () {
     });
 
     $(window).bind('resize', function () {
-//        console.log('width = ' + $('.page').width());
-//        console.log('height = ' + $('.page').height());
+        //        console.log('width = ' + $('.page').width());
+        //        console.log('height = ' + $('.page').height());
     }).trigger('resize');
 
     // Menu functions
@@ -102,8 +204,6 @@ $(document).ready(function () {
     // Initiate the PhoneGap onDeviceReady event
     if (IsPhonegap())
         document.addEventListener("deviceready", onDeviceReady, false);
-    else
-        console.log("this is the browser");
 
 });
 
@@ -157,59 +257,59 @@ function onBackKeyDown() {
 }
 
 
-var Base64Binary = {
-    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+//var Base64Binary = {
+//    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
-    /* will return a  Uint8Array type */
-    decodeArrayBuffer: function (input) {
-        var bytes = (input.length / 4) * 3;
-        var ab = new ArrayBuffer(bytes);
-        this.decode(input, ab);
+//    /* will return a  Uint8Array type */
+//    decodeArrayBuffer: function (input) {
+//        var bytes = (input.length / 4) * 3;
+//        var ab = new ArrayBuffer(bytes);
+//        this.decode(input, ab);
 
-        return ab;
-    },
+//        return ab;
+//    },
 
-    decode: function (input, arrayBuffer) {
-        //get last chars to see if are valid
-        var lkey1 = this._keyStr.indexOf(input.charAt(input.length - 1));
-        var lkey2 = this._keyStr.indexOf(input.charAt(input.length - 2));
+//    decode: function (input, arrayBuffer) {
+//        //get last chars to see if are valid
+//        var lkey1 = this._keyStr.indexOf(input.charAt(input.length - 1));
+//        var lkey2 = this._keyStr.indexOf(input.charAt(input.length - 2));
 
-        var bytes = (input.length / 4) * 3;
-        if (lkey1 == 64) bytes--; //padding chars, so skip
-        if (lkey2 == 64) bytes--; //padding chars, so skip
+//        var bytes = (input.length / 4) * 3;
+//        if (lkey1 == 64) bytes--; //padding chars, so skip
+//        if (lkey2 == 64) bytes--; //padding chars, so skip
 
-        var uarray;
-        var chr1, chr2, chr3;
-        var enc1, enc2, enc3, enc4;
-        var i = 0;
-        var j = 0;
+//        var uarray;
+//        var chr1, chr2, chr3;
+//        var enc1, enc2, enc3, enc4;
+//        var i = 0;
+//        var j = 0;
 
-        if (arrayBuffer)
-            uarray = new Uint8Array(arrayBuffer);
-        else
-            uarray = new Uint8Array(bytes);
+//        if (arrayBuffer)
+//            uarray = new Uint8Array(arrayBuffer);
+//        else
+//            uarray = new Uint8Array(bytes);
 
-        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+//        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
-        for (i = 0; i < bytes; i += 3) {
-            //get the 3 octects in 4 ascii chars
-            enc1 = this._keyStr.indexOf(input.charAt(j++));
-            enc2 = this._keyStr.indexOf(input.charAt(j++));
-            enc3 = this._keyStr.indexOf(input.charAt(j++));
-            enc4 = this._keyStr.indexOf(input.charAt(j++));
+//        for (i = 0; i < bytes; i += 3) {
+//            //get the 3 octects in 4 ascii chars
+//            enc1 = this._keyStr.indexOf(input.charAt(j++));
+//            enc2 = this._keyStr.indexOf(input.charAt(j++));
+//            enc3 = this._keyStr.indexOf(input.charAt(j++));
+//            enc4 = this._keyStr.indexOf(input.charAt(j++));
 
-            chr1 = (enc1 << 2) | (enc2 >> 4);
-            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-            chr3 = ((enc3 & 3) << 6) | enc4;
+//            chr1 = (enc1 << 2) | (enc2 >> 4);
+//            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+//            chr3 = ((enc3 & 3) << 6) | enc4;
 
-            uarray[i] = chr1;
-            if (enc3 != 64) uarray[i + 1] = chr2;
-            if (enc4 != 64) uarray[i + 2] = chr3;
-        }
+//            uarray[i] = chr1;
+//            if (enc3 != 64) uarray[i + 1] = chr2;
+//            if (enc4 != 64) uarray[i + 2] = chr3;
+//        }
 
-        return uarray;
-    }
-}
+//        return uarray;
+//    }
+//}
 
 
 

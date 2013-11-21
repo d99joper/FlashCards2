@@ -21,7 +21,7 @@
                 <!--<li><a href="#favorites" class="icon-star menu-close"> Favorites</a></li>
                 <li><a href="#search" class="icon-search menu-close"> Find New Decks</a></li>-->
                 <li><a href="#stats" class="icon-info menu-close"> Statistics</a></li>
-                <!--<li><a href="#settings" class="icon-gear menu-close"> Settings</a></li>-->
+                <li><a href="#settings" class="icon-gear menu-close"> Settings</a></li>
                 <!--<li><a href="#" class="icon-remove menu-trigger"> Close menu</a></li>-->
             </ul>
         </div>
@@ -174,7 +174,6 @@
                     <input type="file" id="imgUpload" class="btn btn-link" data-bind="event: { change: function() { uploadImage($element.files[0]); } }">
                 <!-- /ko -->
                 <div>
-                    <span data-bind="text: card().imageUrl"></span>
                     <img id="imgDisplay" data-bind="attr: {src: card().imageUrl}" />
                 </div>
 
@@ -264,9 +263,15 @@
             </div>
 
             <!-- Settings -->
-            <!--<div id="settings" class="page" style="display:none;">
-                settings
-            </div>-->
+            <div id="settings" class="page" style="display:none;">
+                <div id="divNoUser" style="display:none;">
+                    You do not have a user account.<br />
+                    <a id="aCreateAccount" href="#">Create a user account.</a>
+                </div>
+                <div id="divUserSettings" style="display:none;">
+                    Here's your information
+                </div>
+            </div>
 
             <!-- Quiz -->
             <div id="quiz" class="page" style="display:none;" data-bind="with: selectedCard">
@@ -362,7 +367,51 @@
                 </div>
             </div>
 
-        </div>
+        </div>   
+        
+        <!-- Modal -->
+        <div class="modal fade" id="userLoginmodal" tabindex="-1" role="dialog" aria-labelledby="quizSummaryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">User settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divUserAccountOptions">
+                        <p>
+                            You are not a registered user. You can use the app locally without a user account, but, in order to 
+                            share decks with others, or use your decks on multiple devices, you will have to register an account. 
+                        </p>
+                        <p>
+                            <button class="btn btn-block btn-lg btn-primary showLogin">Create an account</button>
+                            <button class="btn btn-block btn-lg btn-primary">Link with Google account</button>
+                            <button class="btn btn-block btn-lg btn-primary">Link with Facebook account</button>
+                            <button class="btn btn-block btn-lg btn-primary">No thanks, not right now.</button>
+                        </p>
+                    </div>
+                    <div id="divCreateUser" class="well" style="display:none;">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" class="form-control" id="txtName" placeholder="Enter name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email</label>
+                            <input type="email" class="form-control" id="txtEmail" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="txtPassword" placeholder="Password">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="btnCreateUser" class="btn btn-primary" style="display:none;">Create User</button>
+                </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->          
 
     </div>
 
@@ -386,6 +435,7 @@
     <script type="text/javascript" src="js/Models/Deck.js"></script>
     <script type="text/javascript" src="js/Models/Card.js"></script>
     <script type="text/javascript" src="js/Models/Quiz.js"></script>
+    <script type="text/javascript" src="js/Models/User.js"></script>
     <script type="text/javascript" src="js/ViewModels/HomeVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/FavoritesVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/DeckVM.js"></script>
