@@ -1,5 +1,9 @@
-// Data client for Apigee
+// ****** ApiGee ********
 var dataClient;
+var client_creds = {
+    orgName: 'd99joper',
+    appName: 'flashcards'
+}
 
 // The viewport
 var viewport = {
@@ -29,7 +33,6 @@ $.fn.toggleClick = function (e) {
         iteration = (iteration + 1) % functions.length
     })
 }
-
     
 function s4() {
 	return Math.floor((1 + Math.random()) * 0x10000)
@@ -44,14 +47,6 @@ function GenerateGuid() {
 
 function IsPhonegap() {
     return /^file:\/{3}[^\/]/i.test(window.location.href) && /ios|iphone|ipod|ipad|android|BlackBerry|IEMobile/i.test(navigator.userAgent);
-    //return navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
-}
-
-
-// ****** ApiGee ********
-var client_creds = {
-    orgName: 'd99joper',
-    appName: 'flashcards'
 }
 
 $(".showLogin").click(function () {
@@ -64,7 +59,7 @@ $("#aCreateAccount").click(function (e) {
     e.preventDefault();
 });
 $("#btnCreateUser").click(function () {
-    GetUser($("#txtEmail").val(), $("#txtName").val(), $("#txtPassword").val(), function (user) {
+    GetUser($("#txtName").val(), $("#txtEmail").val(), $("#txtPassword").val(), function (user) {
         var options = { method: 'POST',
             endpoint: 'users',
             body: { username: user.email, name: user.name, email: user.email, password: user.password }
@@ -102,62 +97,13 @@ $("#btnCreateUser").click(function () {
 
 $(document).ready(function () {
 
-    if (!localStorage["userName"]) {
-        $('#userLoginmodal').modal('show');
-        $('#divNoUser').show();
-    } else
-        $('#divUserSettings').show();
-
     //Initializes the ApiGee SDK. Also instantiates Apigee.MonitoringClient
     dataClient = new Apigee.Client(client_creds);
 
     //alert(localStorage["userName"]);
     //if (localStorage["userName"]) { localStorage.removeItem("userName");}
     //else { localStorage["userName"] = "Jonas"; };
-
-//    GetUser('john.doe.2', 'john.doe.2', 'password', function (user) {
-//        console.log(user);
-//        // if user exists, get the token through apigee
-//        dataClient.login(user.email, user.password,
-//            function (err, response) {
-//                if (err) {
-//                    //error — could not log user in
-//                    console.log("There was an error logging in " + user.name);
-//                    console.log(response.error_description);
-//                    // Display modal with suggestion to log in.
-//                } else {
-//                    //success — user has been logged in
-//                    var token = dataClient.token;
-//                    console.log(token);
-//                }
-//            }
-//        );
-//    });
-    //options for the request
-    //    var options = {
-    //        method: 'POST',
-    //        endpoint: 'users',
-    //        body: { username: 'john.doe.2', name: 'John Doe', email: 'john.doe.2@gmail.com', password: 'password' }
-    //    };
-
-    //    var options = {
-    //        method: 'GET',
-    //        endpoint: 'users/me'
-    //    };
-    //    dataClient.request(options, function (error, response) {        
-    //        if (error) {
-    //            console.log(error);
-    //            // Error
-    //        } else {
-    //            // Success
-    //            console.log("success");
-    //            console.log(response);
-    //        }
-    //    });
-
-
-    //    console.log(viewport.width);
-    //    console.log(viewport.height);
+    
     $("#ddlAnswerType").change(function () {
         if ($("#ddlAnswerType").val() == 1) {
             $("#divAnswerText").show();

@@ -1,12 +1,13 @@
-﻿function User() {
+﻿function User(name, email, password) {
+    var self = this;
 
+    self.name = name;
+    self.email = email;
+    self.password = password;
 }
 
-function GetUser(email, name, password, callback) {
-    var user = {
-        name: name
-        , password: password
-        , email: email 
-    };
+function GetUser(name, email, password, callback) {
+    var user = new User(name, email, password);
+    console.log(user);
     callback(user);
 }

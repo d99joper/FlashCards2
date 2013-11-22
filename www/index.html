@@ -105,7 +105,7 @@
 
             <!-- Create Deck -->
             <div id="createDeck" class="page" style="display:none;">
-                <input type="text" class="form-control" placeholder="Untitled Deck..." data-bind="value: $root.deck().name, valueUpdate: 'change', event: { change: saveDeck }" />
+                <input type="text" class="form-control input-lg" placeholder="Untitled Deck..." data-bind="value: $root.deck().name, valueUpdate: 'change', event: { change: saveDeck }" />
                     
                 <h4>    
                     Cards 
@@ -140,7 +140,7 @@
             <div id="createCard" class="page" style="display:none;">
                 <form id="formCard">
                 <h4>Question</h4>
-                <textarea class="form-control" rows="3"  data-bind="value: card().question"></textarea>
+                <textarea class="form-control input-lg" rows="3"  data-bind="value: card().question"></textarea>
             
                 <h4>Image</h4>
                 <!-- ko if: isPhonegap() -->
@@ -242,7 +242,8 @@
 
                 <ul class="list-group list-hover" data-bind="foreach: quizzes" >
                     <li class="list-group-item">
-                        <a><span data-bind="text: deckName"></span><small><i data-bind="text: ' (' + formattedDate() + ')'"></i></small></a>
+                        <a><span class="lead" data-bind="text: deckName"></span><br />
+                        <small><i data-bind="text: ' (' + formattedDate() + ')'"></i></small></a>
                         <span class="badge" data-bind="text: correctAnswers + '/' + numberOfCards,
                             css: {'badge-success': percentage() >= 75
                                 , 'badge-info': percentage() >= 50 && percentage() < 75 
@@ -254,11 +255,11 @@
 
                 <h4>Some numbers</h4>
                 <div>
-                        <div class="well"><span data-bind="text: quizzes().length"></span> Quizzes taken</div>
-                        <div class="well"><span data-bind="text: stats().cardCount"></span> Questions answered</div>
-                        <div class="well">
-                            <span data-bind="text: stats().correctCount"></span> Correct answers (<span data-bind="text: stats().percentage"></span>%)
-                        </div>
+                    <div class="well"><span data-bind="text: quizzes().length"></span> Quizzes taken</div>
+                    <div class="well"><span data-bind="text: stats().cardCount"></span> Questions answered</div>
+                    <div class="well">
+                        <span data-bind="text: stats().correctCount"></span> Correct answers (<span data-bind="text: stats().percentage"></span>%)
+                    </div>
                 </div>
             </div>
 
@@ -269,7 +270,13 @@
                     <a id="aCreateAccount" href="#">Create a user account.</a>
                 </div>
                 <div id="divUserSettings" style="display:none;">
-                    Here's your information
+                    <div class="panel panel-default">
+                        <div class="panel-heading">User</div>
+                        <div class="panel-body">
+                            <h4 data-bind="text: user().name"></h4>
+                            <h5 data-bind="text: user().email"></h5>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -279,11 +286,12 @@
                 <div class="pull-left">
                     <span class="text-info">So far: </span>
                     <span data-bind="
-                    text: $root.correctAnswers() + '/' + $root.cardsShown().length + ' (' + $root.percentage() + '%)' 
-                    , css: {'text-success': $root.percentage() >= 75
-                            , 'text-info': $root.percentage() >= 50 && $root.percentage() < 75 
-                            , 'text-warning': $root.percentage() >= 25 && $root.percentage() < 50
-                            , 'text-danger': $root.percentage() < 25}"></span>
+                        text: $root.correctAnswers() + '/' + $root.cardsShown().length + ' (' + $root.percentage() + '%)' 
+                        , css: {'text-success': $root.percentage() >= 75
+                        , 'text-info': $root.percentage() >= 50 && $root.percentage() < 75 
+                        , 'text-warning': $root.percentage() >= 25 && $root.percentage() < 50
+                        , 'text-danger': $root.percentage() < 25}">
+                    </span>
                 </div>
                 <div class="pull-right btn-link">
                     <a data-toggle="modal" href="#quizSummaryModal">End Quiz <span class="glyphicon glyphicon-remove"></span></a>
@@ -291,25 +299,25 @@
 
                 <div class="clearfix" style="margin-bottom: 1em;"></div>
                 <div class="panel panel-primary"> 
-                    <div class="panel-heading"><h3 class="panel-title">Question</h3></div>
-                    <div class="panel-body text-primary" data-bind="text: question" ></div> 
+                    <div class="panel-heading"><h3 class="panel-title" style="font-size:18pt">Question</h3></div>
+                    <div class="panel-body text-primary lead" data-bind="text: question" ></div> 
                 </div>
             
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3 class="panel-title">
+                        <h3 class="panel-title" style="font-size:18pt">
                             Answer 
                             <button id="btnShowHideAnswer" class="btn btn-link" style="padding:0;" data-bind="click: $root.showHideAnswer">show answer</button>
                         </h3>
                     </div>
             
                     <!-- single answer -->
-                    <div id="quizSingleAnswer" class="panel-body text-success" data-bind="text: singleAnswer().text" style="display:none;" ></div>
+                    <div id="quizSingleAnswer" class="panel-body text-success lead" data-bind="text: singleAnswer().text" style="display:none;" ></div>
             
                     <!-- multiple answer -->
                     <div id="quizMultipleAnswer" class="panel-body" data-bind="visible: typeId() == 2" >      
                         <ul class="list-group" data-bind="foreach: multipleAnswers">
-                                <li class="list-group-item text-success" 
+                                <li class="list-group-item text-success lead" 
                                 data-bind="css: { correctAnswer: isCorrect() && $root.showAnswer(), 'strikethrough-line': !isCorrect() && $root.showAnswer() }">
                                 <span data-bind="text: $index() + 1 + ') ' + text(), css: {'strikethrough-text': !isCorrect() && $root.showAnswer()}"></span>
                                 <span class="glyphicon glyphicon-ok" style="color:Red;" data-bind="visible: isCorrect() && $root.showAnswer()" ></span>
@@ -318,7 +326,7 @@
                     </div>
 
                     <!-- true/false answer -->
-                    <div id="quizTrueFalseAnswer" class="panel-body text-success" style="display:none;" data-bind="text: (trueFalseAnswer().isCorrect() + '!').toUpperCase()" ></div>
+                    <div id="quizTrueFalseAnswer" class="panel-body text-success lead" style="display:none;" data-bind="text: (trueFalseAnswer().isCorrect() + '!').toUpperCase()" ></div>
             
                 </div>
 
@@ -440,6 +448,7 @@
     <script type="text/javascript" src="js/ViewModels/FavoritesVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/DeckVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/CardVM.js"></script>
+    <script type="text/javascript" src="js/ViewModels/SettingsVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/StatsVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/QuizVM.js"></script>
     <script type="text/javascript" src="js/functions.js"></script>

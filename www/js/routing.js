@@ -58,7 +58,16 @@
             showPage("stats", " Statistics");
         });
 
-        this.get('#settings', function (context) {
+        this.get('#settings', function (context) {            
+            if (localStorage["userName"]) {
+                $('#divUserSettings').show();
+                GetUser(localStorage["userName"], localStorage["userEmail"], localStorage["userPassword"], function (user) {
+                    settingsView.user(user);
+                });
+            } else {
+                $('#userLoginmodal').modal('show');
+                $('#divNoUser').show();
+            }
             showPage("settings", " Settings");
         });
 
