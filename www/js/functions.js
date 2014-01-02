@@ -1,5 +1,6 @@
 // ****** ApiGee ********
 var dataClient;
+var userToken = null;
 var client_creds = {
     orgName: 'd99joper',
     appName: 'flashcards'
@@ -59,33 +60,41 @@ $("#aCreateAccount").click(function (e) {
     e.preventDefault();
 });
 $("#btnCreateUser").click(function () {
+    // Create a user object using the data from the textboxes 
     GetUser($("#txtName").val(), $("#txtEmail").val(), $("#txtPassword").val(), function (user) {
+        // Define the options for the data client
         var options = { method: 'POST',
             endpoint: 'users',
             body: { username: user.email, name: user.name, email: user.email, password: user.password }
         };
-
+        // post the user data to create a new user
         dataClient.request(options, function (error, response) {
             if (error) {
                 console.log(error);
+                alert("Something went wrong when trying to create the user. "+error)
                 // Error
             } else {
-                // Success
-                console.log(response);
+                // Success - the user has been created, now login the user.
                 dataClient.login(user.email, user.password,
                     function (err) {
                         if (err) {
-                            //error — could not log user in
+                            //error - could not log user in
                             console.log("There was an error logging in " + user.name);
                         } else {
-                            //success — user has been logged in
-                            var token = dataClient.token;
+                            //success - user has been logged in
+                            
+                            // set the token, for future use
+                            userToken = dataClient.token;
+                            
+                            // Set the local storage variables, so that the user is stored on this device
                             localStorage["userName"] = user.name;
                             localStorage["userEmail"] = user.email;
                             localStorage["userPassword"] = user.password;
+
+                            // hide the login modal
                             $('#userLoginmodal').modal('hide');
-                             $('#divNoUser').hide();
-                             $("#divUserSettings").show();
+                            $('#divNoUser').hide();
+                            $("#divUserSettings").show();
                         }
                     }
                 );
@@ -99,10 +108,6 @@ $(document).ready(function () {
 
     //Initializes the ApiGee SDK. Also instantiates Apigee.MonitoringClient
     dataClient = new Apigee.Client(client_creds);
-
-    //alert(localStorage["userName"]);
-    //if (localStorage["userName"]) { localStorage.removeItem("userName");}
-    //else { localStorage["userName"] = "Jonas"; };
     
     $("#ddlAnswerType").change(function () {
         if ($("#ddlAnswerType").val() == 1) {
