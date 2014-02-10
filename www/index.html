@@ -12,6 +12,8 @@
 </head>
 
 <body onload="createDBStructure()">
+    
+    <!--<div id="fb-root"></div>-->
 
     <div id="menu" class="menu nav-collapse collapse" style="padding-top: 58px;">
         <div class="collapse-inner">
@@ -48,6 +50,7 @@
                     <span class="input-group-addon btn-warning"><span class="icon-search"></span></span>
                     <input data-bind="value: filter, valueUpdate: 'keyup'" class="form-control" placeholder="Filter decks..." />
                 </div>  
+                
                 <ul class="list-group list-hover" data-bind="foreach: filteredDecks" >
                     <li class="list-group-item">
                         <h3 class="list-group-item-heading">
@@ -265,13 +268,41 @@
 
             <!-- Settings -->
             <div id="settings" class="page" style="display:none;">
+                <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>
                 <div id="divNoUser" style="display:none;">
-                    You do not have a user account.<br />
-                    <a id="aCreateAccount" href="#">Create a user account.</a>
+                    <div class="alert alert-danger" style="max-width: 700px;">
+                        You are not a registered user. You can use the app locally without a user account, but, in order to 
+                        share decks with others, or use your decks on multiple devices, you will have to register an account.
+                    </div>
+                    <!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
+                    <!--<a id="aCreateAccount" href="#">Create a user account.</a>-->
+                    <div style="max-width: 325px;">      
+                        <button id="btnCreate" class="btn btn-lg btn-block btn-success showLogin">
+                            <i class="icon-plus"></i>
+                            Create a new account
+                        </button>
+                        <p>
+                            Already using Flashcards? 
+                            <a id="btnLogin" class="btn btn-success showLogin" style="margin-top:.2em;">Sign in</a>
+                        </p>
+                        <center style="padding: 20px 0 10px 0">
+                            <label class="h4">Or</label>
+                        </center>
+                        <button class="btn btn-lg btn-block btn-primary">
+                            <i class="icon-google-plus"></i>
+                            - Sign in with Google
+                        </button>
+                        <!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
+                        <button id="btnFacebookLogin" class="btn btn-lg btn-block btn-primary">
+                            <i class="icon-facebook"></i>
+                            - Sign in with Facebook
+                        </button>
+                    </div>
                 </div>
+                    
                 <div id="divUserSettings" style="display:none;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">User</div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">User information</div>
                         <div class="panel-body">
                             <h4 data-bind="text: user().name"></h4>
                             <h5 data-bind="text: user().email"></h5>
@@ -386,36 +417,36 @@
                     <h4 class="modal-title">User settings</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="divUserAccountOptions">
+                    <!--<div id="divUserAccountOptions">
                         <p>
                             You are not a registered user. You can use the app locally without a user account, but, in order to 
                             share decks with others, or use your decks on multiple devices, you will have to register an account. 
                         </p>
-                        <p>
-                            <button class="btn btn-block btn-lg btn-primary showLogin">Create an account</button>
-                            <button class="btn btn-block btn-lg btn-primary">Link with Google account</button>
-                            <button class="btn btn-block btn-lg btn-primary">Link with Facebook account</button>
-                            <button class="btn btn-block btn-lg btn-primary">No thanks, not right now.</button>
-                        </p>
-                    </div>
+                    </div>-->
                     <div id="divCreateUser" class="well" style="display:none;">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Name</label>
-                            <input type="text" class="form-control" id="txtName" placeholder="Enter name">
+                        <div class="form-group showPasswordConfirm">
+                            <label for="txtName">Name</label>
+                            <input type="text" class="form-control" id="txtName" placeholder="Enter name" >
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email</label>
+                            <label for="txtEmail">Email</label>
                             <input type="email" class="form-control" id="txtEmail" placeholder="Enter email">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
+                            <label for="txtPassword">Password 
+                                <h6 style="display: inline"><small>(Password has to be at least five characters.)</small></h6>
+                            </label>
                             <input type="password" class="form-control" id="txtPassword" placeholder="Password">
+                        </div>
+                        <div class="form-group showPasswordConfirm">
+                            <label for="txtPassword_confirm">Confirm password</label>
+                            <input type="password" class="form-control" id="txtPasswordConfirm" placeholder="Password">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button id="btnCreateUser" class="btn btn-primary" style="display:none;">Create User</button>
+                    <button id="btnCreateUser" class="btn btn-primary">Create User</button>
                 </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -451,8 +482,8 @@
     <script type="text/javascript" src="js/ViewModels/SettingsVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/StatsVM.js"></script>
     <script type="text/javascript" src="js/ViewModels/QuizVM.js"></script>
-    <script type="text/javascript" src="js/functions.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
     <script type="text/javascript" src="js/routing.js"></script>
 </body>
 </html>

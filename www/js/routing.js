@@ -11,6 +11,9 @@
                 homeView.decks(decks);
             });
             showPage("home", " My Decks");
+
+//            if ((user == null) && localStorage["userName"])
+//                user = GetUser(localStorage["userName"], localStorage["userEmail"], localStorage["userName"], localStorage["userPassword"], Login);
         });
 
         this.get('#favorites', function (context) {
@@ -58,14 +61,14 @@
             showPage("stats", " Statistics");
         });
 
-        this.get('#settings', function (context) {            
+        this.get('#settings', function (context) {
             if (localStorage["userName"]) {
                 $('#divUserSettings').show();
-                GetUser(localStorage["userName"], localStorage["userEmail"], localStorage["userPassword"], function (user) {
+                GetUser(localStorage["userName"], localStorage["userEmail"], localStorage["userEmail"], localStorage["userPassword"], function (user) {
                     settingsView.user(user);
                 });
             } else {
-                $('#userLoginmodal').modal('show');
+                //$('#userLoginmodal').modal('show');
                 $('#divNoUser').show();
             }
             showPage("settings", " Settings");

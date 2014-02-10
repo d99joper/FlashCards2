@@ -1,7 +1,7 @@
 ﻿function SettingsViewModel() {
     
     var self = this;
-
+    
     self.user = ko.observable(new User(null, null, null, null));
 
 }
