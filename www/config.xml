@@ -28,6 +28,10 @@
   <gap:plugin name="org.apache.cordova.file" />
   <gap:plugin name="org.apache.cordova.file-transfer" />
   <gap:plugin name="org.apache.cordova.vibration" />
+  <gap:plugin name="com.phonegap.plugins.facebookconnect">
+    <param name="APP_ID" value="493515217435430" />
+    <param name="APP_NAME" value="Flashcards" />
+  </gap:plugin>
   
   <!--<feature name="http://api.phonegap.com/1.0/camera"/>
   <feature name="http://api.phonegap.com/1.0/contacts"/>
