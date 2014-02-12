@@ -58,6 +58,7 @@ $("#btnCreateUser").click(function () {
 });
 
 $("#btnFacebookLogin").click(function () {
+    alert(FB);
     FB.getLoginStatus(updateStatusCallback);
 });
 
